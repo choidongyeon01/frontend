@@ -1,0 +1,159 @@
+.carousel-list {
+  display: flex;
+  gap: 36px;
+  width: 100%;
+  overflow: hidden;
+  justify-content: flex-start;
+  padding: 0 40px; /* ← 좌우 40px 여백 추가 (원하는 만큼 조절) */
+}
+
+
+.movie-card {
+  flex: 1 1 0;   /* 각 카드가 동일하게 남은 공간을 나눠가짐 */
+  min-width: 0;  /* flex-item이 줄어들 수 있게 */
+  height: 330px;
+  background: linear-gradient(180deg, #232323 0%, #181818 100%);
+  border-radius: 14px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s;
+  overflow: hidden;
+}
+
+.movie-card:hover {
+  transform: scale(1.04);
+  z-index: 2;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.40);
+}
+
+/* 포스터 이미지: 카드에 꽉 채우고 비율 유지 */
+.movie-poster {
+  width: 100%;
+  height: 75%;
+  object-fit: cover;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  background: #222;
+  display: block;
+}
+
+/* 카드 내부 텍스트 오버레이 */
+.movie-card-content {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 18px 14px 0 14px;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+.movie-title {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0 0 2px 0;
+}
+
+.movie-category {
+  color: #cfcfcf;
+  font-size: 0.97rem;
+  opacity: 0.88;
+  margin: 0;
+}
+
+/* 포스터 없을 때 대체 이미지 */
+.movie-no-image {
+  width: 100%;
+  height: 75%;
+  background: #2a2a2a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  font-size: 1.1rem;
+}
+
+/* 캐러셀 버튼 스타일 */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background: #222;
+  color: #fff;
+  font-size: 2.2rem;
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  outline: none;
+}
+.carousel-btn.left  { left: 16px; }
+.carousel-btn.right { right: 16px; }
+.carousel-btn:hover { background: #ff1e80; }
+.carousel-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* 마지막 페이지 빈 칸 */
+.movie-card.empty-card {
+  background: transparent;
+  box-shadow: none;
+  cursor: default;
+}
+
+/* 섹션 타이틀 */
+.section-title, .live-section h2 {
+  color: #fff;
+  font-size: 1.35rem;
+  font-weight: bold;
+  margin: 0 0 18px 60px;
+  letter-spacing: 0.5px;
+}
+
+.movie-row {
+  margin-bottom: 56px;
+}
+
+
+/* 반응형 */
+@media (max-width: 900px) {
+  .movie-card {
+    height: 280px;
+  }
+  .carousel-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1.4rem;
+  }
+  .section-title, .live-section h2 {
+    font-size: 1.1rem;
+    margin-left: 12px;
+  }
+}
+
+/* 포커스 시 버튼 테두리 */
+.carousel-btn:focus {
+  outline: 2px solid #ff1e80;
+  outline-offset: 2px;
+}

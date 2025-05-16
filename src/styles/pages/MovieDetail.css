@@ -1,0 +1,97 @@
+.movie-detail-page {
+    background: #181024;
+    min-height: 100vh;
+    color: #fff;
+  }
+  
+  .movie-backdrop {
+    background-size: cover;
+    background-position: center;
+    min-height: 400px;
+    position: relative;
+  }
+  
+  .backdrop-overlay {
+    background: linear-gradient(to right, #181024 60%, rgba(24,16,36,0.5) 100%);
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    padding: 40px 32px;
+  }
+  
+  .movie-detail-content {
+    display: flex;
+    gap: 36px;
+    align-items: flex-start;
+  }
+  
+  .movie-poster img {
+    width: 220px;
+    border-radius: 10px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+  }
+  
+  .movie-info h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #ff1e80;
+  }
+  
+  .movie-meta {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #ccc;
+  }
+  
+  .genres {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  
+  .genre {
+    background: #2a1a38;
+    color: #ff1e80;
+    padding: 3px 12px;
+    border-radius: 14px;
+    font-size: 0.95rem;
+  }
+  
+  .overview h3 {
+    margin-bottom: 6px;
+    font-size: 1.1rem;
+    color: #fff;
+  }
+  
+  .overview p {
+    color: #ccc;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  .actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 12px;
+  }
+  
+  .actions button {
+    background: #ff1e80;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .actions button.add-to-list {
+    background: transparent;
+    border: 1.5px solid #ff1e80;
+    color: #ff1e80;
+  }
+  

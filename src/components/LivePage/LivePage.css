@@ -1,0 +1,140 @@
+.live-page-container {
+    padding: 40px 60px;
+    background: #111;
+    min-height: 100vh;
+  }
+
+  .category-divider {
+    width: 100%;
+    height: 1.5px;
+    background: linear-gradient(90deg, #222 0%, #222 100%);
+    opacity: 0.7;
+    margin-bottom: 32px;
+  }
+  
+  
+  /* 카테고리 필터 바 */
+  .category-filter-bar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+  }
+  
+  .category-btn {
+    background: #2a2a2a;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .category-btn.active,
+  .category-btn:hover {
+    background: #ff1e80;
+    transform: scale(1.05);
+  }
+  
+  /* 라이브 콘텐츠 그리드 */
+  .live-content-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px 20px;
+    padding-bottom: 40px;
+  }
+  
+  .live-card {
+    background: #232323;
+    border-radius: 18px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+    aspect-ratio: 16/9;        /* 카드 비율: 메인 Trending Now와 동일 */
+    min-height: 180px;         /* 메인 Trending Now와 동일한 높이 */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.15s;
+  }
+  
+  .live-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.40);
+    transform: translateY(-4px) scale(1.03);
+    z-index: 2;
+  }
+  
+  .live-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: #ff1e80;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.98rem;
+    letter-spacing: 1px;
+    z-index: 3;
+  }
+  
+  .card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+  }
+  
+  .card-title {
+    color: white;
+    margin: 0 0 10px 0;
+    font-size: 1.13rem;
+    font-weight: bold;
+  }
+  
+  .card-meta {
+    color: #cfcfcf;
+    font-size: 0.99rem;
+    opacity: 0.88;
+    display: flex;
+    align-items: center;
+  }
+  
+  .dot {
+    margin: 0 8px;
+    color: #888;
+  }
+  
+  /* 반응형 */
+  @media (max-width: 1200px) {
+    .live-content-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 900px) {
+    .live-page-container {
+      padding: 30px 10px;
+    }
+    .live-content-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .live-page-container {
+      padding: 14px 2vw;
+    }
+    .live-content-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .category-filter-bar {
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+  }
+  

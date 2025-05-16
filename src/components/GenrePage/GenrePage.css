@@ -1,0 +1,136 @@
+.genre-page-container {
+    padding: 40px 60px;
+    background: #111;
+    min-height: 100vh;
+  }
+  
+  /* 카테고리 필터 바 */
+  .genre-category-filter-bar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+  }
+  
+  .genre-category-btn {
+    background: #2a2a2a;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .genre-category-btn.active,
+  .genre-category-btn:hover {
+    background: #ff1e80;
+    transform: scale(1.05);
+  }
+  
+  /* 구분선 */
+  .genre-category-divider {
+    width: 100%;
+    height: 1.5px;
+    background: linear-gradient(90deg, #222 0%, #222 100%);
+    opacity: 0.7;
+    margin-bottom: 32px;
+  }
+  
+  /* 장르 콘텐츠 그리드 */
+  .genre-content-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px 20px;
+    padding-bottom: 40px;
+  }
+  
+  .genre-card {
+    height: 330px;
+    background: linear-gradient(180deg, #232323 0%, #181818 100%);
+    border-radius: 14px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s;
+    overflow: hidden;
+  }
+  
+  .genre-card:hover {
+    transform: scale(1.04);
+    z-index: 2;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.40);
+  }
+  
+  .genre-poster {
+    width: 100%;
+    height: 75%;
+    object-fit: cover;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    background: #222;
+    display: block;
+  }
+  
+  .genre-card-content {
+    width: 100%;
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 18px 14px 0 14px;
+    box-sizing: border-box;
+    background: transparent;
+  }
+  
+  .genre-title {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0 0 2px 0;
+  }
+  
+  .genre-meta {
+    color: #cfcfcf;
+    font-size: 0.97rem;
+    opacity: 0.88;
+    margin: 0;
+  }
+  
+  /* 반응형 */
+  @media (max-width: 1200px) {
+    .genre-content-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 900px) {
+    .genre-card {
+      height: 280px;
+    }
+    .genre-page-container {
+      padding: 30px 10px;
+    }
+    .genre-content-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .genre-page-container {
+      padding: 14px 2vw;
+    }
+    .genre-content-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .genre-category-filter-bar {
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+  }
+  

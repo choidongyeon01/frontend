@@ -1,0 +1,21 @@
+.welcome-section {
+  margin-top: 0;
+  padding-top: 8px;
+  margin-bottom: 16px;
+  padding-left: 60px; /* IFITV 배너와 동일하게 */
+}
+
+.welcome-section h1 {
+  margin: 0;
+  font-size: 2.6rem;
+  font-weight: 500;
+  color: #ff1e80;
+  letter-spacing: 0.5px;
+}
+
+.welcome-section p {
+  margin: 6px 0 0 0;
+  color: #bbb;
+  font-size: 1.15rem;
+  font-weight: 500;
+}

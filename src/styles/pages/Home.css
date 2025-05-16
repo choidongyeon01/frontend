@@ -1,0 +1,40 @@
+.home-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #111;
+}
+
+.main-content {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 섹션 간 넉넉한 공백 */
+.section-gap {
+  height: 56px;
+  width: 100%;
+  background: red;
+}
+
+.content-section {
+  margin-bottom: 0; /* 공백은 section-gap으로만 관리 */
+  width: 100%;
+}
+
+.content-section h2 {
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 24px;
+  letter-spacing: 1px;
+}
+
+.movie-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+}

@@ -1,0 +1,252 @@
+.modal-overlay {
+  position: fixed;
+  z-index: 2000;
+  left: 0; top: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.93);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  position: relative;
+  background: #181818;
+  color: #fff;
+  width: 90%;
+  max-width: 900px;
+  min-width: 320px;
+  padding: 0 0 40px 0;
+  border-radius: 16px;
+  box-shadow: 0 6px 32px rgba(0,0,0,0.6);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.modal-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7);
+  z-index: 1;
+}
+
+.modal-hero-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 32px 48px 48px 48px;
+  background: linear-gradient(0deg, rgba(0,0,0,0.93) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.modal-hero-title {
+  font-size: 2.3rem;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.modal-genre-section {
+  margin-bottom: 18px;
+  font-size: 1.13rem;
+  color: #cfcfcf;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-genre-section .dot {
+  margin: 0 8px;
+  font-size: 1.2em;
+  color: #cfcfcf;
+}
+
+.modal-genre {
+  color: #cfcfcf;
+}
+
+.modal-section {
+  color: #cfcfcf;
+}
+
+.modal-hero-overview {
+  font-size: 1.07rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 90%;
+  color: #fff;
+  font-weight: 400;
+}
+
+.modal-close {
+  position: fixed;
+  top: 32px;
+  right: 48px;
+  background: none;
+  border: none;
+  font-size: 2.8rem;
+  color: #fff;
+  cursor: pointer;
+  z-index: 2100;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.modal-close:hover { color: #ff1e80; }
+
+.modal-actions {
+  display: flex;
+  gap: 18px;
+  margin: 28px 0 36px 48px;
+}
+
+.play-btn {
+  background: #ff1e80;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.play-btn:hover { background: #e6006e; }
+
+.mylist-btn, .info-btn {
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 22px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s;
+}
+.mylist-btn:hover, .info-btn:hover { background: #333; }
+
+.info-btn svg {
+  margin-right: 7px;
+  vertical-align: middle;
+}
+
+.related-titles {
+  margin: 20px 0 0 48px;
+}
+.related-titles h3 {
+  font-size: 1.18rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.related-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 8px;
+  width: 100%;
+  justify-items: center;
+  align-items: end;
+}
+.related-card {
+  text-align: center;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  min-width: 0;
+}
+/* 관련 영화 없을 때 메시지: 왼쪽 첫 칸(섹션 시작 위치)에 위치 */
+.no-related {
+  /* 중앙정렬, grid-column 등 절대 넣지 마세요! */
+  text-align: left;
+  color: #aaa;
+  font-size: 0.96rem;
+  align-self: start;
+  justify-self: start;
+  padding: 16px 0;
+}
+.related-title {
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+.related-category {
+  color: #aaa;
+  font-size: 0.96rem;
+}
+
+/* 반응형 */
+@media (max-width: 1100px) {
+  .modal-hero-content {
+    padding: 20px 24px 32px 24px;
+  }
+  .modal-hero-title {
+    font-size: 1.7rem;
+  }
+  .modal-hero-overview {
+    max-width: 100%;
+  }
+  .modal-close {
+    right: 12px;
+    top: 16px;
+    font-size: 2rem;
+  }
+  .related-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .modal-actions {
+    margin-left: 24px;
+  }
+  .related-titles {
+    margin-left: 24px;
+  }
+}
+@media (max-width: 700px) {
+  .modal-hero-content {
+    padding: 16px 16px 24px 16px;
+  }
+  .modal-hero-title {
+    font-size: 1.15rem;
+  }
+  .modal-genre-section {
+    font-size: 0.98rem;
+    margin-bottom: 10px;
+  }
+  .modal-hero-overview {
+    font-size: 0.95rem;
+  }
+  .modal-actions {
+    gap: 8px;
+    margin-left: 16px;
+  }
+  .related-titles {
+    margin-left: 16px;
+  }
+  .related-list {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .modal-close {
+    top: 8px;
+    right: 8px;
+    font-size: 1.6rem;
+  }
+}

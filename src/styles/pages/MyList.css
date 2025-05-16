@@ -1,0 +1,156 @@
+.mylist-page {
+  padding: 40px 60px;
+  background: #111;
+  min-height: 100vh;
+}
+
+.mylist-header {
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 32px;
+}
+
+.mylist-carousel {
+  width: 100%;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+/* 캐러셀 내부 카드 4개만 보이기 (flex-basis 23~24%) */
+.carousel-inner {
+  display: flex;
+  gap: 36px;
+  width: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  padding: 12px 0;
+}
+
+.mylist-card {
+  flex: 0 0 23%;
+  min-width: 0;
+  height: 330px;
+  background: linear-gradient(180deg, #232323 0%, #181818 100%);
+  border-radius: 14px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  font-size: 1.15rem;
+}
+
+.mylist-poster {
+  width: 100%;
+  height: 75%;
+  object-fit: cover;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  background: #222;
+  display: block;
+}
+
+.mylist-card-content {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* 또는 center */
+  padding: 10px 14px 0 14px;   /* ← padding-top을 8px → 18px 등으로 늘림 */
+  box-sizing: border-box;
+  background: transparent;
+}
+
+.mylist-title {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0 0 2px 0;
+}
+
+.mylist-meta {
+  color: #cfcfcf;
+  font-size: 0.97rem;
+  opacity: 0.88;
+  margin: 0;
+}
+
+/* 카드 내부 한 줄 정렬 (장르/삭제 버튼) */
+.mylist-card-content-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.mylist-remove-btn {
+  background: #ff1e80;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 0;
+}
+
+/* 빈 상태 안내 문구: 완전 중앙 정렬 */
+.mylist-empty {
+  color: #666;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 330px;
+  width: 100%;
+  text-align: center;
+}
+
+/* 스크롤바 숨김 */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* 캐러셀 화살표 버튼 스타일 (필요시) */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
+  background: rgba(30,30,30,0.8);
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.carousel-arrow.left { left: -24px; }
+.carousel-arrow.right { right: -24px; }
+
+@media (max-width: 900px) {
+  .mylist-card {
+    height: 280px;
+    flex: 0 0 48%;
+  }
+  .carousel-inner {
+    gap: 20px;
+  }
+}
+@media (max-width: 600px) {
+  .mylist-page {
+    padding: 14px 2vw;
+  }
+  .mylist-card {
+    flex: 0 0 100%;
+  }
+  .carousel-inner {
+    gap: 14px;
+  }
+}
