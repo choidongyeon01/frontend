@@ -1,71 +1,83 @@
-// src/pages/Home.js
-import React from 'react';
-import Header from '../components/Header';
+import React, { useState, useEffect } from 'react';
 import WelcomeSection from '../components/WelcomeSection';
-import FeaturedContent from '../components/FeaturedContent';
 import LiveSection from '../components/LiveSection';
 import MovieRow from '../components/MovieRow';
+import TVRow from '../components/TVRow';
+import MovieDetailModal from '../components/MovieDetailModal';
+import TVDetailModal from '../components/TVDetailModal';
 import tmdbApi from '../api/tmdb';
 import '../styles/pages/Home.css';
 
-const Home = () => {
+const Home = ({ selectedProfile }) => {
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [selectedTV, setSelectedTV] = useState(null);
+
+  const [trendingMovies, setTrendingMovies] = useState([]);
+  const [personalizedMovies, setPersonalizedMovies] = useState([]);
+  const [popularTV, setPopularTV] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAll = async () => {
+      setLoading(true);
+      try {
+        const [trendingRes, personalizedRes, popularTVRes] = await Promise.all([
+          tmdbApi.trending(),
+          tmdbApi.popular(),
+          tmdbApi.getPopularTV()
+        ]);
+        setTrendingMovies(trendingRes.data.results.map(item => ({ ...item, type: 'movie' })));
+        setPersonalizedMovies(personalizedRes.data.results.map(item => ({ ...item, type: 'movie' })));
+        setPopularTV(popularTVRes.data.results.map(item => ({ ...item, type: 'tv' })));
+      } catch (e) {
+        setTrendingMovies([]);
+        setPersonalizedMovies([]);
+        setPopularTV([]);
+      }
+      setLoading(false);
+    };
+    fetchAll();
+  }, []);
+
+  if (loading) {
+    return <div style={{ color: '#fff', padding: '40px', textAlign: 'center' }}>Loading...</div>;
+  }
+
   return (
     <div className="home-page">
-      <Header />
       <main className="main-content">
-        <WelcomeSection username="Jiyeon" />
-        <div className="section-gap" />
-
-        <FeaturedContent />
-        <div className="section-gap" />
-
+        <WelcomeSection selectedProfile={selectedProfile} />
         <LiveSection />
-        <div className="section-gap" />
-
-        <section className="content-section">
-          <h2>Trending Now</h2>
-          <div className="movie-grid">
-            <MovieRow 
-              title="" 
-              fetchFunction={tmdbApi.getTrending} 
-              category="Drama, Romance" 
-            />
-          </div>
-        </section>
-        <div className="section-gap" />
-
-        <section className="content-section">
-          <h2>Popular Among Your Demographic</h2>
-          <div className="movie-grid">
-            <MovieRow 
-              title="Political Power" 
-              fetchFunction={() => tmdbApi.getMoviesByGenre(18)} 
-              category="Drama" 
-            />
-            <MovieRow 
-              title="Urban Lifestyle" 
-              fetchFunction={() => tmdbApi.getMoviesByGenre(9648)} 
-              category="Mystery" 
-            />
-            <MovieRow 
-              title="Gentle War" 
-              fetchFunction={() => tmdbApi.getMoviesByGenre(53)} 
-              category="Spy Thriller" 
-            />
-          </div>
-        </section>
-        <div className="section-gap" />
-
-        <section className="content-section">
-          <h2>New Releases / Coming Soon</h2>
-          <div className="movie-grid">
-            <MovieRow 
-              title="" 
-              fetchFunction={tmdbApi.getUpcoming} 
-              category="Coming Soon" 
-            />
-          </div>
-        </section>
+        <MovieRow
+          title="Trending Now"
+          items={trendingMovies}
+          onMovieClick={movie => setSelectedMovie({ ...movie, type: 'movie' })}
+        />
+        <MovieRow
+          title="Personalized for You"
+          items={personalizedMovies}
+          onMovieClick={movie => setSelectedMovie({ ...movie, type: 'movie' })}
+        />
+        <TVRow
+          title="인기 TV 프로그램"
+          items={popularTV}
+          onTVClick={tv => setSelectedTV({ ...tv, type: 'tv' })}
+          titleClassName="tv-row-title"
+        />
+        {selectedMovie && (
+          <MovieDetailModal
+            movie={selectedMovie}
+            onClose={() => setSelectedMovie(null)}
+            onRelatedSelect={m => setSelectedMovie({ ...m, type: 'movie' })}
+          />
+        )}
+        {selectedTV && (
+          <TVDetailModal
+            tv={selectedTV}
+            onClose={() => setSelectedTV(null)}
+            onRelatedSelect={t => setSelectedTV({ ...t, type: 'tv' })}
+          />
+        )}
       </main>
     </div>
   );

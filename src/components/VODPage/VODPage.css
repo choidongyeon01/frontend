@@ -1,14 +1,16 @@
-/* VODPage.css */
 .vod-page-container {
   padding: 40px 60px;
   background: #111;
-  min-height: 100vh;
+  min-height: 84vh;
 }
 
+/* 카테고리 필터 바 */
 .vod-category-filter-bar {
   display: flex;
   gap: 15px;
   margin-bottom: 40px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .vod-category-btn {
@@ -21,13 +23,13 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
-
 .vod-category-btn.active,
 .vod-category-btn:hover {
   background: #ff1e80;
   transform: scale(1.05);
 }
 
+/* 구분선 */
 .vod-category-divider {
   width: 100%;
   height: 1.5px;
@@ -36,16 +38,40 @@
   margin-bottom: 32px;
 }
 
+/* 섹션(영화/TV) */
+.vod-content-section {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* 섹션 타이틀 */
+.vod-section-title {
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0 0 18px 0;
+  letter-spacing: 0.5px;
+  padding-left: 0;
+}
+
+/* 섹션 사이 공백 */
+.vod-content-section + .vod-content-section {
+  margin-top: 48px;
+}
+
+/* 카드 그리드 */
 .vod-content-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 32px 20px;
   padding-bottom: 40px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
-/* ===== Home 페이지와 100% 동일한 카드 스타일 시작 ===== */
+/* 카드 스타일 */
 .vod-card {
-  height: 330px;
+  height: 360px;
   background: linear-gradient(180deg, #232323 0%, #181818 100%);
   border-radius: 14px;
   box-shadow: 0 2px 16px rgba(0,0,0,0.25);
@@ -57,65 +83,92 @@
   transition: transform 0.2s;
   overflow: hidden;
 }
-
 .vod-card:hover {
   transform: scale(1.04);
   z-index: 2;
   box-shadow: 0 8px 24px rgba(0,0,0,0.40);
 }
-
 .vod-poster {
   width: 100%;
-  height: 75%;
+  height: 80%;
   object-fit: cover;
   border-top-left-radius: 14px;
   border-top-right-radius: 14px;
   background: #222;
   display: block;
 }
-
 .vod-card-content {
   width: 100%;
   height: 15%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 18px 14px 0 14px;
+  padding: 12px 9px 0 9px;
   box-sizing: border-box;
   background: transparent;
 }
-
 .vod-title {
   color: #fff;
-  font-size: 1.1rem;
+  font-size: 0.97rem;
   font-weight: bold;
   margin: 0 0 2px 0;
+  max-height: 2.8em;
 }
-
 .vod-meta {
   color: #cfcfcf;
   font-size: 0.97rem;
   opacity: 0.88;
   margin: 0;
 }
-/* ===== Home 페이지와 100% 동일한 카드 스타일 끝 ===== */
+.vod-card.empty-card {
+  background: transparent;
+  box-shadow: none;
+  cursor: default;
+}
 
-.vod-no-image {
-  height: 80%;
-  background: #2a2a2a;
+/* 캐러셀 버튼 스타일은 기존과 동일하게 사용 */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background: #222;
+  color: #fff;
+  font-size: 2.2rem;
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s, color 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #666;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  outline: none;
+  opacity: 0.97;
+}
+.carousel-btn.left  { left: 10px; }
+.carousel-btn.right { right: 10px; }
+.carousel-btn:hover:not(:disabled) { background: #ff1e80; color: #fff; }
+.carousel-btn:disabled { opacity: 0.25; cursor: not-allowed; background: #222; color: #fff; box-shadow: none; }
+.carousel-btn svg {
+  width: 2.1rem;
+  height: 2.1rem;
+  display: block;
 }
 
+/* 반응형도 GenrePage.css와 동일하게 복붙 */
 @media (max-width: 1200px) {
   .vod-content-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-
 @media (max-width: 900px) {
+  .vod-card {
+    height: 280px;
+  }
   .vod-page-container {
     padding: 30px 10px;
   }
@@ -123,11 +176,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
-  .vod-card {
-    height: 280px; /* 모바일 높이 조정 */
-  }
 }
-
 @media (max-width: 600px) {
   .vod-page-container {
     padding: 14px 2vw;

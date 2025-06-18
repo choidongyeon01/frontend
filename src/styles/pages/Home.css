@@ -1,6 +1,7 @@
 .home-page {
+  flex: 1 1 auto;
+  min-height: 0;
   width: 100%;
-  min-height: 100vh;
   background: #111;
 }
 
@@ -12,25 +13,19 @@
   box-sizing: border-box;
 }
 
-/* 섹션 간 넉넉한 공백 */
-.section-gap {
-  height: 56px;
-  width: 100%;
-  background: red;
-}
-
-.content-section {
-  margin-bottom: 0; /* 공백은 section-gap으로만 관리 */
-  width: 100%;
-}
-
-.content-section h2 {
+/* Home 전용 섹션 제목만 위치/색상 고정 (필요시) */
+.home-section-title {
   color: #fff;
   font-size: 1.3rem;
   font-weight: bold;
   margin-bottom: 24px;
+  margin-left: 60px;
+  padding-left: 0;
   letter-spacing: 1px;
 }
+
+/* 필요 없는 gap/margin/padding, section-gap 등은 삭제 */
+/* .movie-row-section, .content-section, .section-gap 등은 MovieRow/LiveSection 등에서만 관리 */
 
 .movie-grid {
   display: flex;

@@ -1,37 +1,18 @@
-body, html {
-  width: 100%;
+html, body, #root {
   height: 100%;
+  min-height: 100vh;
+  width: 100%;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   background: #111;
-  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .app {
   min-height: 100vh;
+  height: 100%;
   width: 100%;
   background: #111;
-}
-
-.main-content {
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0; /* 패딩 제거, 각 섹션에서 여백 관리 */
-  box-sizing: border-box;
-}
-
-/* IFITV 배너와 Welcome 섹션의 왼쪽 여백을 맞춤 */
-.banner-section {
-  margin-top: 32px;
-  margin-bottom: 24px;
-  padding-left: 32px;
-}
-
-.banner-title {
-  font-size: 2.2rem;
-  font-weight: bold;
-  color: #ff1e80;
-  margin: 0;
+  display: flex;
+  flex-direction: column;
 }

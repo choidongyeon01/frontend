@@ -21,7 +21,8 @@
   text-align: left;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .modal-hero {
@@ -29,6 +30,7 @@
   width: 100%;
   aspect-ratio: 16/9;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .modal-hero-bg {
@@ -115,7 +117,7 @@
 .modal-actions {
   display: flex;
   gap: 18px;
-  margin: 28px 0 36px 48px;
+  margin: 28px 48px 36px 48px;
 }
 
 .play-btn {
@@ -150,47 +152,80 @@
   vertical-align: middle;
 }
 
+/* Related Content (2x2 그리드) */
 .related-titles {
-  margin: 20px 0 0 48px;
+  margin: 20px 48px 0 48px;
 }
 .related-titles h3 {
-  font-size: 1.18rem;
+  font-size: 1.3rem; /* 제목 더 크게 */
   font-weight: bold;
   margin-bottom: 10px;
 }
 .related-list {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  margin-top: 8px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  margin-top: 12px;
   width: 100%;
-  justify-items: center;
-  align-items: end;
 }
 .related-card {
-  text-align: center;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 500;
-  min-width: 0;
+  width: 100%;
+  height: 400px; /* 카드 높이 더 크게 */
+  background: #232323;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+  padding: 14px 10px 18px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.18s;
+  cursor: pointer;
 }
-/* 관련 영화 없을 때 메시지: 왼쪽 첫 칸(섹션 시작 위치)에 위치 */
-.no-related {
-  /* 중앙정렬, grid-column 등 절대 넣지 마세요! */
-  text-align: left;
-  color: #aaa;
-  font-size: 0.96rem;
-  align-self: start;
-  justify-self: start;
-  padding: 16px 0;
+.related-card:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.32);
+}
+.related-poster {
+  width: 100%;
+  height: 345px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: #222;
+  display: block;
+  aspect-ratio: 2/3;
+}
+.related-no-image {
+  width: 100%;
+  height: 345px;
+  background: #2a2a2a;
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  aspect-ratio: 2/3;
 }
 .related-title {
   font-weight: bold;
   margin-bottom: 2px;
+  font-size: 1.08rem;
+  color: #fff;
+  text-align: center;
 }
 .related-category {
   color: #aaa;
+  font-size: 1rem;
+}
+
+/* 관련 영화 없을 때 메시지 */
+.no-related {
+  text-align: left;
+  color: #aaa;
   font-size: 0.96rem;
+  padding: 16px 0;
 }
 
 /* 반응형 */
@@ -209,14 +244,15 @@
     top: 16px;
     font-size: 2rem;
   }
-  .related-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
   .modal-actions {
-    margin-left: 24px;
+    margin: 28px 24px 36px 24px;
   }
   .related-titles {
-    margin-left: 24px;
+    margin: 20px 24px 0 24px;
+  }
+  .related-list {
+    grid-template-columns: 1fr;
+    gap: 18px;
   }
 }
 @media (max-width: 700px) {
@@ -234,19 +270,44 @@
     font-size: 0.95rem;
   }
   .modal-actions {
+    margin: 28px 16px 36px 16px;
     gap: 8px;
-    margin-left: 16px;
   }
   .related-titles {
-    margin-left: 16px;
+    margin: 20px 16px 0 16px;
   }
   .related-list {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 10px;
+  }
+  .related-card {
+    width: 100%;
+    height: 200px;
+  }
+  .related-poster, .related-no-image {
+    height: 100px;
   }
   .modal-close {
     top: 8px;
     right: 8px;
     font-size: 1.6rem;
   }
+}
+
+.mylist-feedback {
+  margin: 0 auto 12px auto;
+  background: #222;
+  color: #ff1e80;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 11px 24px;
+  font-size: 1.05rem;
+  text-align: center;
+  max-width: 320px;
+  box-shadow: 0 2px 8px rgba(255,30,128,0.08);
+  animation: fadeIn 0.3s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px);}
+  to { opacity: 1; transform: translateY(0);}
 }

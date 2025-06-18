@@ -1,35 +1,36 @@
 .mylist-page {
-  padding: 40px 60px;
+  padding: 0px 60px 40px 60px;
   background: #111;
-  min-height: 100vh;
+  min-height: 88.2vh;
 }
 
+/* 헤더 */
 .mylist-header {
   color: #fff;
   font-size: 2rem;
   margin-bottom: 32px;
 }
 
-.mylist-carousel {
+/* 캐러셀 컨테이너 */
+.mylist-carousel-container {
   width: 100%;
   margin-bottom: 48px;
   position: relative;
 }
 
-/* 캐러셀 내부 카드 4개만 보이기 (flex-basis 23~24%) */
-.carousel-inner {
-  display: flex;
-  gap: 36px;
-  width: 100%;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-  padding: 12px 0;
+/* 카드 그리드: 장르페이지와 동일한 구조 */
+.mylist-carousel-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4개 고정 */
+  gap: 32px 20px;                        /* 행 32px, 열 20px */
+  padding-bottom: 40px;
+  padding-left: 0;
+  padding-right: 0;
+  box-sizing: border-box;
 }
 
 .mylist-card {
-  flex: 0 0 23%;
-  min-width: 0;
-  height: 330px;
+  height: 360px;
   background: linear-gradient(180deg, #232323 0%, #181818 100%);
   border-radius: 14px;
   box-shadow: 0 2px 16px rgba(0,0,0,0.25);
@@ -43,7 +44,7 @@
 
 .mylist-poster {
   width: 100%;
-  height: 75%;
+  height: 80%;
   object-fit: cover;
   border-top-left-radius: 14px;
   border-top-right-radius: 14px;
@@ -56,17 +57,18 @@
   height: 15%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* 또는 center */
-  padding: 10px 14px 0 14px;   /* ← padding-top을 8px → 18px 등으로 늘림 */
+  justify-content: flex-start;
+  padding: 5px 9px 0 9px;
   box-sizing: border-box;
   background: transparent;
 }
 
 .mylist-title {
   color: #fff;
-  font-size: 1.1rem;
+  font-size: 0.97rem;
   font-weight: bold;
   margin: 0 0 2px 0;
+  max-height: 2.8em;
 }
 
 .mylist-meta {
@@ -76,7 +78,6 @@
   margin: 0;
 }
 
-/* 카드 내부 한 줄 정렬 (장르/삭제 버튼) */
 .mylist-card-content-row {
   display: flex;
   align-items: center;
@@ -88,13 +89,13 @@
   background: #ff1e80;
   color: #fff;
   border: none;
-  padding: 6px 12px;
+  padding: 4px 10px;
   border-radius: 4px;
   cursor: pointer;
   margin-top: 0;
 }
 
-/* 빈 상태 안내 문구: 완전 중앙 정렬 */
+/* 빈 상태 안내 문구: 중앙 정렬 */
 .mylist-empty {
   color: #666;
   font-size: 1.2rem;
@@ -104,42 +105,57 @@
   height: 330px;
   width: 100%;
   text-align: center;
+  grid-column: 1 / -1; /* 그리드 전체 차지 */
 }
 
-/* 스크롤바 숨김 */
-.no-scrollbar {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-/* 캐러셀 화살표 버튼 스타일 (필요시) */
-.carousel-arrow {
+/* 캐러셀 화살표 버튼 고유화 */
+.mylist-carousel-btn {
   position: absolute;
   top: 50%;
-  z-index: 2;
   transform: translateY(-50%);
-  background: rgba(30,30,30,0.8);
-  border: none;
-  color: #fff;
-  font-size: 2rem;
   width: 48px;
   height: 48px;
+  background: #222;
+  color: #fff;
+  font-size: 2.2rem;
+  border: none;
   border-radius: 50%;
+  padding: 0;
   cursor: pointer;
-  transition: background 0.2s;
+  z-index: 10;
+  transition: background 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  outline: none;
+  opacity: 0.97;
 }
-.carousel-arrow.left { left: -24px; }
-.carousel-arrow.right { right: -24px; }
+.mylist-carousel-btn.left  { left: 10px; }
+.mylist-carousel-btn.right { right: 10px; }
+.mylist-carousel-btn:hover:not(:disabled) { background: #ff1e80; color: #fff; }
+.mylist-carousel-btn:disabled { opacity: 0.25; cursor: not-allowed; background: #222; color: #fff; box-shadow: none; }
+.mylist-carousel-btn svg {
+  width: 2.1rem;
+  height: 2.1rem;
+  display: block;
+}
 
+/* 반응형 */
+@media (max-width: 1200px) {
+  .mylist-carousel-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
 @media (max-width: 900px) {
+  .mylist-page {
+    padding: 30px 10px;
+  }
   .mylist-card {
     height: 280px;
-    flex: 0 0 48%;
   }
-  .carousel-inner {
+  .mylist-carousel-list {
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
 }
@@ -147,10 +163,8 @@
   .mylist-page {
     padding: 14px 2vw;
   }
-  .mylist-card {
-    flex: 0 0 100%;
-  }
-  .carousel-inner {
+  .mylist-carousel-list {
+    grid-template-columns: 1fr;
     gap: 14px;
   }
 }

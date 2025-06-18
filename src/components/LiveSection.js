@@ -23,10 +23,10 @@ const LiveSection = () => {
 
   return (
     <section className="live-section">
-      <h2 className="section-title">Live Now</h2>
-      <div className="carousel-container">
+      <h2 className="live-section-title">Live Now</h2>
+      <div className="live-carousel-container">
         <button
-          className="carousel-btn left"
+          className="live-carousel-btn left"
           onClick={handlePrev}
           aria-label="이전"
           disabled={startIndex === 0}
@@ -35,7 +35,7 @@ const LiveSection = () => {
             <path d="M15 18l-6-6 6-6" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
           </svg>
         </button>
-        <div className="carousel-list">
+        <div className="live-carousel-list">
           {visibleLives.map(item => (
             <div key={item.id} className="live-item">
               <span className="live-badge">LIVE</span>
@@ -50,7 +50,7 @@ const LiveSection = () => {
           ))}
         </div>
         <button
-          className="carousel-btn right"
+          className="live-carousel-btn right"
           onClick={handleNext}
           aria-label="다음"
           disabled={startIndex >= liveContents.length - LIVE_PER_PAGE}

@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import './MovieRow.css';
+import './MovieRow/MovieRow.css';
+import './MovieRow/TVRow.css';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 const ITEMS_PER_PAGE = 4;
 
-const MovieRow = ({ title, items = [], onMovieClick }) => {
+const TVRow = ({
+  title,
+  items = [],
+  onTVClick,
+  titleClassName = '',    // ← 추가: 타이틀 클래스 prop
+}) => {
   const [startIdx, setStartIdx] = useState(0);
 
   useEffect(() => {
     setStartIdx(0);
   }, [items]);
 
-  const visibleMovies = items.slice(startIdx, startIdx + ITEMS_PER_PAGE);
+  const visibleTVs = items.slice(startIdx, startIdx + ITEMS_PER_PAGE);
   const maxStartIdx = Math.max(0, items.length - ITEMS_PER_PAGE);
 
   const handlePrev = () => setStartIdx(idx => Math.max(0, idx - 1));
@@ -19,11 +25,12 @@ const MovieRow = ({ title, items = [], onMovieClick }) => {
 
   return (
     <section className="movie-row-section">
-      <h2 className="movie-row-title">{title}</h2>
-      <div className="movie-row-carousel-wrap">
+      <h2 className={titleClassName}>{title}</h2> {/* ← 수정: props로 받은 클래스 적용 */}
+      <div className="movie-row-carousel-wrap" style={{ position: 'relative' }}>
+        {/* 왼쪽 캐러셀 버튼 (SVG) */}
         {items.length > ITEMS_PER_PAGE && (
           <button
-            className="movie-row-carousel-btn left"
+            className="carousel-btn left"
             onClick={handlePrev}
             disabled={startIdx === 0}
             aria-label="이전"
@@ -34,31 +41,32 @@ const MovieRow = ({ title, items = [], onMovieClick }) => {
           </button>
         )}
         <div className="movie-row">
-          {visibleMovies.map(movie => (
+          {visibleTVs.map(tv => (
             <div
-              key={movie.id}
+              key={tv.id}
               className="movie-card"
-              onClick={() => onMovieClick(movie)}
+              onClick={() => onTVClick(tv)}
             >
-              {movie.poster_path ? (
+              {tv.poster_path ? (
                 <img
-                  src={IMAGE_BASE_URL + movie.poster_path}
-                  alt={movie.title}
+                  src={IMAGE_BASE_URL + tv.poster_path}
+                  alt={tv.name}
                   className="movie-poster"
                 />
               ) : (
                 <div className="movie-no-image">No Image</div>
               )}
               <div className="movie-card-content">
-                <h3 className="movie-title">{movie.title}</h3>
-                <p className="movie-category">영화</p>
+                <h3 className="movie-title">{tv.name}</h3>
+                <p className="movie-category">TV</p>
               </div>
             </div>
           ))}
         </div>
+        {/* 오른쪽 캐러셀 버튼 (SVG) */}
         {items.length > ITEMS_PER_PAGE && (
           <button
-            className="movie-row-carousel-btn right"
+            className="carousel-btn right"
             onClick={handleNext}
             disabled={startIdx >= maxStartIdx}
             aria-label="다음"
@@ -73,4 +81,4 @@ const MovieRow = ({ title, items = [], onMovieClick }) => {
   );
 };
 
-export default MovieRow;
+export default TVRow;

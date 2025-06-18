@@ -1,17 +1,38 @@
-.carousel-list {
+.movie-row-section {
+  margin-bottom: 20px;           /* 섹션 간 gap */
+  padding: 40px 60px 0 60px;     /* GenrePage, LiveSection과 동일한 좌우 여백 */
+}
+
+.movie-row-title {
+  color: #fff;
+  font-size: 1.35rem;
+  font-weight: bold;
+  margin: 0 0 18px 0;
+  letter-spacing: 0.5px;
+}
+
+.movie-row-carousel-wrap {
+  position: relative;
+  width: 100%;
   display: flex;
-  gap: 36px;
+  align-items: center;
+}
+
+.movie-row {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;                     /* GenrePage와 동일한 카드 간 gap */
   width: 100%;
   overflow: hidden;
   justify-content: flex-start;
-  padding: 0 40px; /* ← 좌우 40px 여백 추가 (원하는 만큼 조절) */
+  padding: 0;
+  box-sizing: border-box;
 }
 
-
 .movie-card {
-  flex: 1 1 0;   /* 각 카드가 동일하게 남은 공간을 나눠가짐 */
-  min-width: 0;  /* flex-item이 줄어들 수 있게 */
-  height: 330px;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 360px;
   background: linear-gradient(180deg, #232323 0%, #181818 100%);
   border-radius: 14px;
   box-shadow: 0 2px 16px rgba(0,0,0,0.25);
@@ -30,10 +51,9 @@
   box-shadow: 0 8px 24px rgba(0,0,0,0.40);
 }
 
-/* 포스터 이미지: 카드에 꽉 채우고 비율 유지 */
 .movie-poster {
   width: 100%;
-  height: 75%;
+  height: 80%;
   object-fit: cover;
   border-top-left-radius: 14px;
   border-top-right-radius: 14px;
@@ -41,23 +61,23 @@
   display: block;
 }
 
-/* 카드 내부 텍스트 오버레이 */
 .movie-card-content {
   width: 100%;
   height: 15%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 18px 14px 0 14px;
+  padding: 12px 9px 0 9px;
   box-sizing: border-box;
   background: transparent;
 }
 
 .movie-title {
   color: #fff;
-  font-size: 1.1rem;
+  font-size: 0.97rem;
   font-weight: bold;
   margin: 0 0 2px 0;
+  max-height: 2.8em;
 }
 
 .movie-category {
@@ -65,12 +85,12 @@
   font-size: 0.97rem;
   opacity: 0.88;
   margin: 0;
+  flex-shrink: 0;
 }
 
-/* 포스터 없을 때 대체 이미지 */
 .movie-no-image {
   width: 100%;
-  height: 75%;
+  height: 80%;
   background: #2a2a2a;
   display: flex;
   align-items: center;
@@ -81,8 +101,7 @@
   font-size: 1.1rem;
 }
 
-/* 캐러셀 버튼 스타일 */
-.carousel-btn {
+.movie-row-carousel-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -96,64 +115,59 @@
   padding: 0;
   cursor: pointer;
   z-index: 10;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   outline: none;
+  opacity: 0.97;
 }
-.carousel-btn.left  { left: 16px; }
-.carousel-btn.right { right: 16px; }
-.carousel-btn:hover { background: #ff1e80; }
-.carousel-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-.carousel-container {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
+.movie-row-carousel-btn.left  { left: 10px; }
+.movie-row-carousel-btn.right { right: 10px; }
+.movie-row-carousel-btn:hover:not(:disabled) { background: #ff1e80; color: #fff; }
+.movie-row-carousel-btn:disabled { opacity: 0.25; cursor: not-allowed; background: #222; color: #fff; box-shadow: none; }
+.movie-row-carousel-btn svg {
+  width: 2.1rem;
+  height: 2.1rem;
+  display: block;
 }
 
-/* 마지막 페이지 빈 칸 */
 .movie-card.empty-card {
   background: transparent;
   box-shadow: none;
   cursor: default;
 }
 
-/* 섹션 타이틀 */
-.section-title, .live-section h2 {
-  color: #fff;
-  font-size: 1.35rem;
-  font-weight: bold;
-  margin: 0 0 18px 60px;
-  letter-spacing: 0.5px;
-}
-
-.movie-row {
-  margin-bottom: 56px;
-}
-
-
-/* 반응형 */
 @media (max-width: 900px) {
+  .movie-row-section {
+    padding: 30px 10px 0 10px;
+  }
   .movie-card {
     height: 280px;
   }
-  .carousel-btn {
+  .movie-row-carousel-btn {
     width: 36px;
     height: 36px;
     font-size: 1.4rem;
   }
-  .section-title, .live-section h2 {
+  .movie-row-title {
     font-size: 1.1rem;
-    margin-left: 12px;
+    margin-left: 10px;
+  }
+  .movie-row {
+    gap: 20px;
   }
 }
-
-/* 포커스 시 버튼 테두리 */
-.carousel-btn:focus {
+@media (max-width: 600px) {
+  .movie-row-section {
+    padding: 14px 2vw 0 2vw;
+  }
+  .movie-row {
+    gap: 14px;
+  }
+}
+.movie-row-carousel-btn:focus {
   outline: 2px solid #ff1e80;
   outline-offset: 2px;
 }

@@ -1,0 +1,61 @@
+.search-results-page {
+  color: #fff;
+  background: #111;
+  min-height: 92.5vh;
+  padding-top: 16px;
+  padding-bottom: 32px;
+  padding-left: 60px;
+  padding-right: 60px;
+  box-sizing: border-box;
+}
+
+.search-main-title {
+  font-size: 1.7rem;
+  margin-bottom: 24px;
+}
+
+.search-term {
+  color: #ff1e80;
+}
+
+.search-section {
+  margin-bottom: 48px;
+}
+
+.search-section-title {
+  font-size: 1.3rem;
+  color: #ffd21e;
+  margin-bottom: 16px;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+/* SearchResults 전용 캐러셀 아이템(고유 네이밍) */
+.search-carousel-item {
+  width: 180px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.search-carousel-poster {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  display: block;
+}
+.search-carousel-item-title {
+  font-weight: bold;
+  font-size: 0.97rem;
+  color: #fff;
+  text-align: center;
+}
+.search-no-image {
+  width: 100%;
+  height: 270px;
+  background: #222;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+}

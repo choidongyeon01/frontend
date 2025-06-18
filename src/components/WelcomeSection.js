@@ -1,11 +1,19 @@
 import React from 'react';
 import '../styles/components/WelcomeSection.css';
 
-const WelcomeSection = () => {
+const WelcomeSection = ({ selectedProfile }) => {
   return (
     <div className="welcome-section">
       <h1>
-        Welcome, Jiyeon <span className="wave-emoji">🖐️</span>
+        Welcome,{' '}
+        {selectedProfile ? (
+          <>
+            {selectedProfile.name}{' '}
+            <span className="wave-emoji">{selectedProfile.avatar}</span>
+          </>
+        ) : (
+          'Guest'
+        )}
       </h1>
       <p>Continue Watching where you left off</p>
     </div>

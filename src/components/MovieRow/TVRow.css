@@ -1,0 +1,7 @@
+.tv-row-title {
+    color: #fff;           /* 흰색으로 명확하게 지정 */
+    font-size: 1.35rem;
+    font-weight: bold;
+    margin: 0 0 18px 0;
+    letter-spacing: 0.5px;
+  }

@@ -1,22 +1,38 @@
-.carousel-container {
+.live-section {
+  margin-bottom: 20px;      /* gap 줄임 */
+  padding: 0px 60px 0 60px; /* 하단 padding 줄임 */
+  background: #111;
+}
+
+.live-section-title {
+  color: #fff;
+  font-size: 1.35rem;
+  font-weight: bold;
+  margin: 0 0 18px 0px; /* IFITV(MovieRow)와 동일한 좌측 여백 */
+  letter-spacing: 0.5px;
+}
+
+.live-carousel-container {
   position: relative;
   width: 100%;
   display: flex;
   align-items: center;
 }
 
-.carousel-list {
+.live-carousel-list {
   display: flex;
-  gap: 36px;
+  gap: 20px; /* GenrePage와 동일하게 */
   width: 100%;
   overflow: hidden;
-  justify-content: center;
+  justify-content: flex-start;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .live-item {
   flex: 1 1 0;
   min-width: 0;
-  height: 330px;
+  height: 360px;
   background: linear-gradient(180deg, #232323 0%, #181818 100%);
   border-radius: 14px;
   box-shadow: 0 2px 16px rgba(0,0,0,0.25);
@@ -51,7 +67,6 @@
   z-index: 3;
 }
 
-/* 카드 내부 텍스트 오버레이 (MovieRow와 동일) */
 .live-card-content {
   width: 100%;
   height: 20%;
@@ -84,11 +99,7 @@
   cursor: default;
 }
 
-.live-section {
-  margin-bottom: 56px;
-}
-
-.carousel-btn {
+.live-carousel-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -110,42 +121,50 @@
   outline: none;
   opacity: 0.97;
 }
-.carousel-btn.left  { left: 16px; }
-.carousel-btn.right { right: 16px; }
-.carousel-btn:hover:not(:disabled) { background: #ff1e80; color: #fff; }
-.carousel-btn:disabled { opacity: 0.25; cursor: not-allowed; background: #222; color: #fff; box-shadow: none; }
-.carousel-btn svg {
+.live-carousel-btn.left  { left: 10px; }
+.live-carousel-btn.right { right: 10px; }
+.live-carousel-btn:hover:not(:disabled) { background: #ff1e80; color: #fff; }
+.live-carousel-btn:disabled { opacity: 0.25; cursor: not-allowed; background: #222; color: #fff; box-shadow: none; }
+.live-carousel-btn svg {
   width: 2.1rem;
   height: 2.1rem;
   display: block;
 }
 
-/* 섹션 타이틀 */
-.live-section .section-title {
-  color: #fff;
-  font-size: 1.35rem;
-  font-weight: bold;
-  margin: 0 0 18px 60px;
-  letter-spacing: 0.5px;
-}
-
-/* 반응형 */
 @media (max-width: 1400px) {
   .live-item { aspect-ratio: 2 / 3; }
+  .live-carousel-list { gap: 20px; }
 }
 @media (max-width: 900px) {
   .live-item { aspect-ratio: 2 / 3; }
-  .carousel-btn {
+  .live-carousel-btn {
     width: 36px;
     height: 36px;
     font-size: 1.4rem;
   }
-  .section-title {
+  .live-section-title {
     font-size: 1.1rem;
-    margin-left: 12px;
+    margin-left: 10px;
+  }
+  .live-carousel-list {
+    gap: 20px;
+    padding: 0 10px;
   }
 }
-.carousel-btn:focus {
+@media (max-width: 600px) {
+  .live-section {
+    padding: 14px 2vw 0 2vw;
+  }
+  .live-carousel-list {
+    gap: 14px;
+    padding: 0;
+  }
+  .live-section-title {
+    margin-left: 2vw;
+  }
+}
+.live-carousel-btn:focus {
   outline: 2px solid #ff1e80;
   outline-offset: 2px;
 }
+

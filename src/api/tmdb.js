@@ -76,12 +76,25 @@ const tmdbApi = {
   // 영화: Drama
   getDramaMovie: () =>
     axios.get(`${BASE_URL}/discover/movie?api_key=${API_KEY}&language=ko-KR&with_genres=${GENRE_IDS.movie.drama}`),
-  
+
   // TV 상세정보 추가
   getTVDetails: (tvId) => 
     axios.get(`${BASE_URL}/tv/${tvId}?api_key=${API_KEY}&language=ko-KR`),
   getSimilarTV: (tvId) =>
     axios.get(`${BASE_URL}/tv/${tvId}/similar?api_key=${API_KEY}&language=ko-KR`),
+
+  // === 검색 기능 추가 ===
+  // 다중(영화+TV) 검색
+  searchMulti: (query) =>
+    axios.get(`${BASE_URL}/search/multi?api_key=${API_KEY}&language=ko-KR&query=${encodeURIComponent(query)}`),
+
+  // 영화만 검색
+  searchMovie: (query) =>
+    axios.get(`${BASE_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${encodeURIComponent(query)}`),
+
+  // TV만 검색
+  searchTV: (query) =>
+    axios.get(`${BASE_URL}/search/tv?api_key=${API_KEY}&language=ko-KR&query=${encodeURIComponent(query)}`),
 };
 
 export { GENRE_IDS };
