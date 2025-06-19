@@ -57,48 +57,130 @@ function App() {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [selectedTV, setSelectedTV] = useState(null);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [users, setUsers] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('users')) || [];
+    } catch {
+      return [];
+    }
+  });
+
+  const [currentUser, setCurrentUser] = useState(null);
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [currentProfileId, setCurrentProfileId] = useState(null);
 
-  const [profiles, setProfiles] = useState(() => {
-    const saved = localStorage.getItem('profiles');
-    if (!saved) return [{ id: 1, name: 'User1', color: PROFILE_COLORS[0], avatar: PROFILE_AVATARS[0] }];
-    try {
-      const parsed = JSON.parse(saved);
-      return Array.isArray(parsed) ? parsed : parsed.profiles || [];
-    } catch {
-      return [{ id: 1, name: 'User1', color: PROFILE_COLORS[0], avatar: PROFILE_AVATARS[0] }];
-    }
-  });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    localStorage.setItem('profiles', JSON.stringify(profiles));
-  }, [profiles]);
+    localStorage.setItem('users', JSON.stringify(users));
+  }, [users]);
 
-  const handleProfileSelect = (profile) => {
-    setSelectedProfile(profile);
-    setCurrentProfileId(profile.id);
-    setIsLoggedIn(true);
-    navigate('/', { replace: true });
+  // 로그인
+  const handleLogin = (id, pw) => {
+    const user = users.find(u => u.id === id && u.password === pw);
+    if (user) {
+      setCurrentUser(user);
+      setIsLoggedIn(true);
+      setSelectedProfile(null);
+      setCurrentProfileId(null);
+      navigate('/profile/select', { replace: true });
+    }
   };
 
-  const handleSwitchProfile = () => {
+  // 회원가입 완료 시 users에 새 계정 추가 + 자동 로그인
+  const handleRegisterNext = (formData) => {
+    if (users.some(u => u.id === formData.id)) return;
+    const newUser = {
+      id: formData.id,
+      password: formData.password,
+      email: formData.email,
+      profiles: []
+    };
+    const updatedUsers = [...users, newUser];
+    setUsers(updatedUsers);
+    setCurrentUser(newUser);
+    setIsLoggedIn(true);
     setSelectedProfile(null);
     setCurrentProfileId(null);
-    navigate('/profile/select', { replace: true });
+    navigate('/register/step2', { state: { formData } });
   };
 
+  // 로그아웃
   const handleLogout = () => {
     setIsLoggedIn(false);
+    setCurrentUser(null);
     setSelectedProfile(null);
     setCurrentProfileId(null);
     setSelectedMovie(null);
     setSelectedTV(null);
     navigate('/login', { replace: true });
+  };
+
+  // 프로필 선택
+  const handleProfileSelect = (profile) => {
+    setSelectedProfile(profile);
+    setCurrentProfileId(profile.id);
+    navigate('/', { replace: true });
+  };
+
+  // 프로필 추가
+  const handleAddProfile = (profile) => {
+    if (!currentUser) return;
+    const updatedProfiles = [...(currentUser.profiles || []), profile];
+    const updatedUser = { ...currentUser, profiles: updatedProfiles };
+    setCurrentUser(updatedUser);
+    setUsers(users.map(u => u.id === updatedUser.id ? updatedUser : u));
+  };
+
+  // 프로필 삭제
+  const handleDeleteProfile = (profileId) => {
+    if (!currentUser) return;
+    const updatedProfiles = (currentUser.profiles || []).filter(p => p.id !== profileId);
+    const updatedUser = { ...currentUser, profiles: updatedProfiles };
+    setCurrentUser(updatedUser);
+    setUsers(users.map(u => u.id === updatedUser.id ? updatedUser : u));
+    if (selectedProfile && selectedProfile.id === profileId) {
+      setSelectedProfile(null);
+      setCurrentProfileId(null);
+    }
+  };
+
+  // 프로필 이름 변경
+  const handleNameChange = (profileId, newName) => {
+    if (!currentUser) return;
+    const updatedProfiles = (currentUser.profiles || []).map(profile =>
+      profile.id === profileId ? { ...profile, name: newName } : profile
+    );
+    const updatedUser = { ...currentUser, profiles: updatedProfiles };
+    setCurrentUser(updatedUser);
+    setUsers(users.map(u => u.id === updatedUser.id ? updatedUser : u));
+  };
+
+  // 프로필 아바타 변경
+  const handleAvatarChange = (profileId, emoji) => {
+    if (!currentUser) return;
+    const updatedProfiles = (currentUser.profiles || []).map(profile =>
+      profile.id === profileId ? { ...profile, avatar: emoji } : profile
+    );
+    const updatedUser = { ...currentUser, profiles: updatedProfiles };
+    setCurrentUser(updatedUser);
+    setUsers(users.map(u => u.id === updatedUser.id ? updatedUser : u));
+  };
+
+  // ----------- 수정된 부분: 안전한 로그인 상태 초기화 후 이동 -----------
+  const handleLogoutAndGoToLogin = () => {
+    setIsLoggedIn(false);
+    setCurrentUser(null);
+    setSelectedProfile(null);
+    setCurrentProfileId(null);
+    setSelectedMovie(null);
+    setSelectedTV(null);
+    setTimeout(() => {
+      navigate('/login', { replace: true });
+    }, 0);
   };
 
   return (
@@ -107,7 +189,11 @@ function App() {
         {isLoggedIn && selectedProfile && (
           <Header
             onLogout={handleLogout}
-            onSwitchProfile={handleSwitchProfile}
+            onSwitchProfile={() => {
+              setSelectedProfile(null);
+              setCurrentProfileId(null);
+              navigate('/profile/select', { replace: true });
+            }}
             currentProfile={selectedProfile}
           />
         )}
@@ -117,52 +203,29 @@ function App() {
               isLoggedIn
                 ? <Navigate to="/profile/select" replace />
                 : <LoginPage
-                    onLogin={() => {
-                      setIsLoggedIn(true);
-                      setSelectedProfile(null);
-                      setCurrentProfileId(null);
-                      navigate('/profile/select', { replace: true });
-                    }}
-                    onGoToRegister={() => {
-                      navigate('/register/step1');
-                    }}
+                    onLogin={handleLogin}
+                    onGoToRegister={() => navigate('/register/step1')}
                   />
             } />
             <Route path="/register/step1" element={
               isLoggedIn
                 ? <Navigate to="/profile/select" replace />
                 : <RegisterPage
-                    onNextStep={(formData) => {
-                      navigate('/register/step2', { state: { formData } });
-                    }}
-                    onGoToLogin={() => {
-                      navigate('/login');
-                    }}
+                    onNextStep={handleRegisterNext}
+                    onGoToLogin={() => handleLogoutAndGoToLogin()}
                   />
             } />
             <Route path="/register/step2" element={
-              isLoggedIn
-                ? <Navigate to="/profile/select" replace />
+              !isLoggedIn
+                ? <Navigate to="/login" replace />
                 : <AddProfilePage
                     onProfileComplete={(profileData) => {
-                      navigate('/register/step3', { state: { ...location.state, profileData } });
-                    }}
-                    onGoToLogin={() => navigate('/login')}
-                    onPrev={() => navigate('/register/step1')}
-                  />
-            } />
-            <Route path="/register/step3" element={
-              isLoggedIn
-                ? <Navigate to="/profile/select" replace />
-                : <SelectContentPage
-                    profileData={location.state?.profileData}
-                    onComplete={(selected) => {
-                      const formData = location.state?.formData;
-                      const profileData = location.state?.profileData;
-                      const usedAvatars = profiles.map(p => p.avatar);
+                      const newId = (currentUser.profiles?.length || 0) > 0
+                        ? Math.max(...currentUser.profiles.map(p => p.id)) + 1
+                        : 1;
+                      const usedAvatars = (currentUser.profiles || []).map(p => p.avatar);
                       const availableAvatars = PROFILE_AVATARS.filter(emoji => !usedAvatars.includes(emoji));
                       const newAvatar = availableAvatars.length > 0 ? availableAvatars[0] : PROFILE_AVATARS[0];
-                      const newId = profiles.length > 0 ? Math.max(...profiles.map(p => p.id)) + 1 : 1;
                       const newProfile = {
                         id: newId,
                         name: profileData.nickname,
@@ -171,20 +234,39 @@ function App() {
                         age: profileData.age,
                         gender: profileData.gender,
                         genres: profileData.genres,
-                        selectedContent: selected,
-                        email: formData?.email,
+                        email: currentUser.email,
                       };
-                      const updatedProfiles = [newProfile, ...profiles];
-                      setProfiles(updatedProfiles);
-                      localStorage.setItem('profiles', JSON.stringify(updatedProfiles));
+                      handleAddProfile(newProfile);
+                      navigate('/register/step3', { state: { profileData: newProfile } });
+                    }}
+                    onGoToLogin={handleLogoutAndGoToLogin}
+                    onPrev={() => navigate('/register/step1')}
+                  />
+            } />
+            <Route path="/register/step3" element={
+              !isLoggedIn
+                ? <Navigate to="/login" replace />
+                : <SelectContentPage
+                    profileData={location.state?.profileData}
+                    onComplete={(selected) => {
+                      const profileId = location.state?.profileData?.id;
+                      if (!currentUser) return;
+                      const updatedProfiles = (currentUser.profiles || []).map(profile =>
+                        profile.id === profileId
+                          ? { ...profile, selectedContent: selected }
+                          : profile
+                      );
+                      const updatedUser = { ...currentUser, profiles: updatedProfiles };
+                      setCurrentUser(updatedUser);
+                      setUsers(users.map(u => u.id === updatedUser.id ? updatedUser : u));
                       navigate('/register/complete');
                     }}
                     onPrev={() => navigate('/register/step2')}
                   />
             } />
             <Route path="/register/complete" element={
-              isLoggedIn
-                ? <Navigate to="/profile/select" replace />
+              !isLoggedIn
+                ? <Navigate to="/login" replace />
                 : <RegisterComplete
                     onGoToMain={() => {
                       navigate('/profile/select', { replace: true });
@@ -195,27 +277,12 @@ function App() {
               !isLoggedIn
                 ? <Navigate to="/login" replace />
                 : <ProfileSelect
-                    profiles={profiles}
+                    profiles={currentUser?.profiles || []}
                     onSelect={handleProfileSelect}
                     onAddProfile={() => navigate('/profile/add')}
-                    onNameChange={(id, newName) => setProfiles(profiles =>
-                      profiles.map(profile =>
-                        profile.id === id ? { ...profile, name: newName } : profile
-                      )
-                    )}
-                    onDeleteProfile={(id) => {
-                      if (profiles.length === 1) return;
-                      setProfiles(profiles => profiles.filter(profile => profile.id !== id));
-                      if (selectedProfile && selectedProfile.id === id) {
-                        setSelectedProfile(null);
-                        setCurrentProfileId(null);
-                      }
-                    }}
-                    onAvatarChange={(id, emoji) => setProfiles(profiles =>
-                      profiles.map(profile =>
-                        profile.id === id ? { ...profile, avatar: emoji } : profile
-                      )
-                    )}
+                    onNameChange={handleNameChange}
+                    onDeleteProfile={handleDeleteProfile}
+                    onAvatarChange={handleAvatarChange}
                   />
             } />
             <Route path="/profile/add" element={
@@ -223,9 +290,25 @@ function App() {
                 ? <Navigate to="/login" replace />
                 : <AddProfilePage
                     onProfileComplete={(profileData) => {
-                      navigate('/profile/content', { state: { profileData } });
+                      const newId = (currentUser.profiles?.length || 0) > 0
+                        ? Math.max(...currentUser.profiles.map(p => p.id)) + 1
+                        : 1;
+                      const usedAvatars = (currentUser.profiles || []).map(p => p.avatar);
+                      const availableAvatars = PROFILE_AVATARS.filter(emoji => !usedAvatars.includes(emoji));
+                      const newAvatar = availableAvatars.length > 0 ? availableAvatars[0] : PROFILE_AVATARS[0];
+                      const newProfile = {
+                        id: newId,
+                        name: profileData.nickname,
+                        color: PROFILE_COLORS[(newId - 1) % PROFILE_COLORS.length],
+                        avatar: newAvatar,
+                        age: profileData.age,
+                        gender: profileData.gender,
+                        genres: profileData.genres,
+                      };
+                      handleAddProfile(newProfile);
+                      navigate('/profile/content', { state: { profileData: newProfile } });
                     }}
-                    onGoToLogin={() => navigate('/login')}
+                    onGoToLogin={handleLogoutAndGoToLogin}
                     onPrev={() => navigate('/profile/select')}
                   />
             } />
@@ -235,24 +318,16 @@ function App() {
                 : <SelectContentPage
                     profileData={location.state?.profileData}
                     onComplete={(selected) => {
-                      const profileData = location.state?.profileData;
-                      const usedAvatars = profiles.map(p => p.avatar);
-                      const availableAvatars = PROFILE_AVATARS.filter(emoji => !usedAvatars.includes(emoji));
-                      const newAvatar = availableAvatars.length > 0 ? availableAvatars[0] : PROFILE_AVATARS[0];
-                      const newId = profiles.length > 0 ? Math.max(...profiles.map(p => p.id)) + 1 : 1;
-                      setProfiles([
-                        ...profiles,
-                        {
-                          id: newId,
-                          name: profileData.nickname,
-                          color: PROFILE_COLORS[(newId - 1) % PROFILE_COLORS.length],
-                          avatar: newAvatar,
-                          age: profileData.age,
-                          gender: profileData.gender,
-                          genres: profileData.genres,
-                          selectedContent: selected,
-                        }
-                      ]);
+                      const profileId = location.state?.profileData?.id;
+                      if (!currentUser) return;
+                      const updatedProfiles = (currentUser.profiles || []).map(profile =>
+                        profile.id === profileId
+                          ? { ...profile, selectedContent: selected }
+                          : profile
+                      );
+                      const updatedUser = { ...currentUser, profiles: updatedProfiles };
+                      setCurrentUser(updatedUser);
+                      setUsers(users.map(u => u.id === updatedUser.id ? updatedUser : u));
                       navigate('/profile/select', { replace: true });
                     }}
                     onPrev={() => navigate('/profile/add')}

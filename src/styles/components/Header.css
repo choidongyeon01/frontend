@@ -22,9 +22,9 @@
 }
 
 .sidebar-logo {
-  text-decoration: none;   /* 밑줄 제거 */
-  border: none;            /* 테두리 제거 */
-  outline: none; 
+  text-decoration: none;
+  border: none;
+  outline: none;
   font-size: 2rem;
   font-weight: bold;
   color: #ff1e80;
@@ -61,6 +61,102 @@
   color: #ff1e80;
 }
 
+/* 세로 드롭다운 */
+.sidebar-dropdown {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: #fff;
+  opacity: 0.2;
+  margin: 8px 0;
+  border: none;
+  width: 100%;
+  display: block;
+}
+
+.sidebar-dropdown-menu {
+  position: fixed;
+  top: 0;
+  left: 150px; /* 사이드바 너비와 동일하게 */
+  height: 100vh;
+  width: 150px;
+  background: #181818;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 0 18px 0;
+  border-right: 1px solid #232323;
+  box-sizing: border-box;
+  z-index: 200;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.10);
+}
+
+.sidebar-dropdown-item {
+  background: none;
+  border: none;
+  outline: none;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 0;
+  width: 100%;
+  text-align: center;
+  font-size: 1.15rem;
+  border-radius: 8px;
+  margin-bottom: 2px;
+  transition: background 0.18s, color 0.18s;
+  cursor: pointer;
+  box-shadow: none;
+  font-family: inherit;
+  appearance: none;
+}
+
+.sidebar-dropdown-item:hover,
+.sidebar-dropdown-item:active,
+.sidebar-dropdown-item:focus {
+  background: #232332;
+  color: #ff1e80;
+}
+
+.settings-gear-btn {
+  background: none;
+  border: none;
+  color: #808080;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.settings-gear-btn:hover,
+.settings-gear-btn:focus {
+  background: #232332;
+  color: #ff1e80;
+}
+.settings-gear-icon {
+  width: 36px;
+  height: 36px;
+  display: block;
+  fill: #808080;
+  transition: fill 0.18s;
+}
+.settings-gear-btn:hover .settings-gear-icon,
+.settings-gear-btn:focus .settings-gear-icon {
+  fill: #ff1e80;
+}
+
 .sidebar-search {
   width: 100%;
   display: flex;
@@ -88,7 +184,7 @@
 .search-input {
   width: 100%;
   box-sizing: border-box;
-  padding: 6px 28px 6px 8px; /* 오른쪽 여백은 닫기 버튼 공간 */
+  padding: 6px 28px 6px 8px;
   border-radius: 8px;
   border: 1px solid #444;
   background: #222;
@@ -129,29 +225,10 @@
 .profile-name {
   font-size: 1rem;
   margin-bottom: 4px;
-  color: #ff1e80;
-}
-
-.switch-button,
-.logout-button {
-  background: #232332;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 5px 10px;
-  font-size: 0.95rem;
-  margin-bottom: 4px;
-  cursor: pointer;
-  transition: background 0.2s;
-  width: 90%;
-  text-align: center;
-}
-.switch-button:hover,
-.logout-button:hover {
-  background: #ff1e80;
   color: #fff;
 }
 
+/* ----------- 나머지 레이아웃 ----------- */
 .main-content-area {
   flex: 1;
   min-width: 0;

@@ -8,18 +8,15 @@ const LoginPage = ({ onLogin, onGoToRegister }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const signupData = JSON.parse(localStorage.getItem('signupData'));
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = users.find(u => u.id === id && u.password === pw);
 
-    if (!signupData) {
-      setError('회원가입 정보가 없습니다. 회원가입을 먼저 해주세요.');
-      return;
-    }
-    if (id !== signupData.id || pw !== signupData.password) {
+    if (!user) {
       setError('아이디 또는 비밀번호가 올바르지 않습니다.');
       return;
     }
     setError('');
-    onLogin?.(id, pw);
+    onLogin(user.id, user.password);
   };
 
   return (

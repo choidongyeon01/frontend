@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import tmdbApi from '../../api/tmdb';
 import MovieDetailModal from '../MovieDetailModal';
 import TVDetailModal from '../TVDetailModal';
@@ -25,7 +26,13 @@ const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 const ITEMS_PER_PAGE = 4;
 
 const GenrePage = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // 쿼리스트링에서 category 파라미터 읽기
+  const params = new URLSearchParams(location.search);
+  const selectedCategory = (params.get('category') || 'all').toLowerCase();
+
   const [movieList, setMovieList] = useState([]);
   const [tvList, setTVList] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -73,6 +80,7 @@ const GenrePage = () => {
           tvResults = tvRes.data.results.map(item => ({ ...item, type: 'tv' }));
         } else {
           const tvRes = await tmdbApi.getTVByGenre(GENRE_IDS[selectedCategory]);
+          movieResults = [];
           tvResults = tvRes.data.results.map(item => ({ ...item, type: 'tv' }));
         }
       } catch (e) {
@@ -82,13 +90,16 @@ const GenrePage = () => {
 
       setMovieList(movieResults);
       setTVList(tvResults);
-      setMovieStartIdx(0); // 카테고리 바뀔 때마다 캐러셀 인덱스 초기화
+      setMovieStartIdx(0);
       setTVStartIdx(0);
       setLoading(false);
     };
 
     fetchGenreContents();
   }, [selectedCategory]);
+
+  // 카테고리명 찾기
+  const categoryName = categories.find(cat => cat.id === selectedCategory)?.name || 'All';
 
   // 캐러셀 버튼 핸들러
   const handleMoviePrev = () => setMovieStartIdx(idx => Math.max(0, idx - 1));
@@ -106,17 +117,8 @@ const GenrePage = () => {
 
   return (
     <div className="genre-page-container">
-      <div className="genre-category-filter-bar">
-        {categories.map(cat => (
-          <button
-            key={cat.id}
-            className={`genre-category-btn${selectedCategory === cat.id ? ' active' : ''}`}
-            onClick={() => setSelectedCategory(cat.id)}
-          >
-            {cat.name}
-          </button>
-        ))}
-      </div>
+      {/* 상단에 현재 카테고리명만 보여줌 */}
+      <h2 className="genre-category-title">{categoryName}</h2>
       <div className="genre-category-divider" />
       {loading ? (
         <div style={{ color: '#fff', padding: '40px', textAlign: 'center' }}>Loading...</div>

@@ -20,8 +20,9 @@ const MyList = () => {
   return (
     <div className="mylist-page">
       <h1 className="mylist-header">My List</h1>
+      <div className="mylist-category-divider" />
       <div className="mylist-carousel-container" style={{ position: 'relative' }}>
-        {/* 캐러셀 왼쪽 버튼: 항상 보이게 */}
+        {/* 캐러셀 왼쪽 버튼 */}
         <button
           className="mylist-carousel-btn left"
           onClick={handlePrev}
@@ -71,7 +72,7 @@ const MyList = () => {
             ))
           )}
         </div>
-        {/* 캐러셀 오른쪽 버튼: 항상 보이게 */}
+        {/* 캐러셀 오른쪽 버튼 */}
         <button
           className="mylist-carousel-btn right"
           onClick={handleNext}

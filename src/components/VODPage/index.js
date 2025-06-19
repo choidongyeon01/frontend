@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import tmdbApi from '../../api/tmdb';
 import MovieDetailModal from '../MovieDetailModal';
 import TVDetailModal from '../TVDetailModal';
@@ -16,7 +17,10 @@ const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 const ITEMS_PER_PAGE = 4;
 
 const VODPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const selectedCategory = (params.get('category') || 'all').toLowerCase();
+
   const [movieList, setMovieList] = useState([]);
   const [tvList, setTVList] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -72,6 +76,9 @@ const VODPage = () => {
     fetchVODContents();
   }, [selectedCategory]);
 
+  // 카테고리명 찾기
+  const categoryName = categories.find(cat => cat.id === selectedCategory)?.name || 'All';
+
   // 캐러셀 버튼 핸들러
   const handleMoviePrev = () => setMovieStartIdx(idx => Math.max(0, idx - 1));
   const handleMovieNext = () => setMovieStartIdx(idx => Math.min(movieList.length - ITEMS_PER_PAGE, idx + 1));
@@ -88,17 +95,8 @@ const VODPage = () => {
 
   return (
     <div className="vod-page-container">
-      <div className="vod-category-filter-bar">
-        {categories.map(cat => (
-          <button
-            key={cat.id}
-            className={`vod-category-btn${selectedCategory === cat.id ? ' active' : ''}`}
-            onClick={() => setSelectedCategory(cat.id)}
-          >
-            {cat.name}
-          </button>
-        ))}
-      </div>
+      {/* 상단에 현재 카테고리명만 보여줌 */}
+      <h2 className="vod-category-title">{categoryName}</h2>
       <div className="vod-category-divider" />
       {loading ? (
         <div style={{ color: '#fff', padding: '40px', textAlign: 'center' }}>Loading...</div>
@@ -112,7 +110,6 @@ const VODPage = () => {
                 className="carousel-btn left"
                 onClick={handleMoviePrev}
                 disabled={movieStartIdx === 0}
-                style={{ left: 0, zIndex: 2 }}
                 aria-label="이전"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -149,7 +146,6 @@ const VODPage = () => {
                 className="carousel-btn right"
                 onClick={handleMovieNext}
                 disabled={movieStartIdx >= movieList.length - ITEMS_PER_PAGE}
-                style={{ right: 0, zIndex: 2 }}
                 aria-label="다음"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -166,7 +162,6 @@ const VODPage = () => {
                 className="carousel-btn left"
                 onClick={handleTVPrev}
                 disabled={tvStartIdx === 0}
-                style={{ left: 0, zIndex: 2 }}
                 aria-label="이전"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -203,7 +198,6 @@ const VODPage = () => {
                 className="carousel-btn right"
                 onClick={handleTVNext}
                 disabled={tvStartIdx >= tvList.length - ITEMS_PER_PAGE}
-                style={{ right: 0, zIndex: 2 }}
                 aria-label="다음"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor">

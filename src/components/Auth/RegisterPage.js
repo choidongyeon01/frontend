@@ -6,10 +6,7 @@ const RegisterPage = ({ onNextStep, onGoToLogin }) => {
     id: '',
     password: '',
     passwordConfirm: '',
-    name: '',
     email: '',
-    phone: '',
-    address: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -26,14 +23,18 @@ const RegisterPage = ({ onNextStep, onGoToLogin }) => {
     if (!formData.id) newErrors.id = '아이디를 입력하세요.';
     if (!formData.password) newErrors.password = '비밀번호를 입력하세요.';
     if (formData.password !== formData.passwordConfirm) newErrors.passwordConfirm = '비밀번호가 일치하지 않습니다.';
-    if (!formData.name) newErrors.name = '이름을 입력하세요.';
     if (!formData.email) newErrors.email = '이메일을 입력하세요.';
-    if (!formData.phone) newErrors.phone = '전화번호를 입력하세요.';
-    if (!formData.address) newErrors.address = '주소를 입력하세요.';
+
+    // 아이디 중복 체크
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    if (users.some(user => user.id === formData.id)) {
+      newErrors.id = '이미 사용 중인 아이디입니다.';
+    }
 
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
 
+    // users 배열에 새 계정 추가 (프로필은 비워둠)
     onNextStep(formData);
   };
 
@@ -54,6 +55,18 @@ const RegisterPage = ({ onNextStep, onGoToLogin }) => {
               required
             />
             {errors.id && <div className="form-error">{errors.id}</div>}
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">이메일<span>*</span></label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            {errors.email && <div className="form-error">{errors.email}</div>}
           </div>
           <div className="form-group">
             <label htmlFor="password">비밀번호<span>*</span></label>
@@ -79,55 +92,9 @@ const RegisterPage = ({ onNextStep, onGoToLogin }) => {
             />
             {errors.passwordConfirm && <div className="form-error">{errors.passwordConfirm}</div>}
           </div>
-          <div className="form-group">
-            <label htmlFor="name">이름<span>*</span></label>
-            <input
-              id="name"
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-            {errors.name && <div className="form-error">{errors.name}</div>}
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">이메일<span>*</span></label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            {errors.email && <div className="form-error">{errors.email}</div>}
-          </div>
-          <div className="form-group">
-            <label htmlFor="phone">전화번호<span>*</span></label>
-            <input
-              id="phone"
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-            />
-            {errors.phone && <div className="form-error">{errors.phone}</div>}
-          </div>
-          <div className="form-group">
-            <label htmlFor="address">주소<span>*</span></label>
-            <input
-              id="address"
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              required
-            />
-            {errors.address && <div className="form-error">{errors.address}</div>}
-          </div>
-          <button className="register-btn" type="submit">다음</button>
+          <button className="register-btn" type="submit">
+            다음
+          </button>
         </form>
         <div className="register-bottom">
           <span>이미 계정이 있으신가요?</span>

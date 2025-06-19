@@ -39,6 +39,16 @@
   margin-bottom: 32px;
 }
 
+.genre-category-title {
+  color: #fff;
+  font-size: 1.7rem;
+  font-weight: bold;
+  margin-bottom: 18px;
+  letter-spacing: 1px;
+  text-align: left;
+  padding-left: 2px;
+}
+
 /* 장르 콘텐츠 그리드 */
 .genre-content-section {
   padding-left: 0;
