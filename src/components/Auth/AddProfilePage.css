@@ -1,12 +1,43 @@
+.add-profile-bg-centered {
+  min-height: 100vh;
+  background: #232323;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.add-profile-container {
+  width: 100%;
+  max-width: 1100px;
+  background: #232323;
+  border-radius: 12px;
+  padding: 32px 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  color: #fff;
+}
+
+.add-profile-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #fff;
+}
+
+.add-profile-genres {
+  width: 100%;
+}
+
 .genres-title {
-  font-size: 1.1rem;
+  font-size: 1.8rem;
   font-weight: bold;
   margin: 18px 0 10px 0;
   color: #fff;
 }
 
 .genre-category-label {
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: bold;
   margin: 14px 0 6px 0;
   color: #fff;
@@ -14,7 +45,7 @@
 
 .genre-btn-list {
   display: flex;
-  flex-wrap: wrap; /* 가로로 정렬, 넘치면 다음 줄 */
+  flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 10px;
 }

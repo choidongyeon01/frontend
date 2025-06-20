@@ -47,7 +47,7 @@ const ProfileSelect = ({
               <input
                 type="text"
                 className="profile-name-input"
-                value={profile.name}
+                value={profile.name || ''}
                 onChange={(e) => onNameChange(profile.id, e.target.value)}
                 maxLength={6}
                 aria-label={`프로필 ${profile.name} 이름 변경`}

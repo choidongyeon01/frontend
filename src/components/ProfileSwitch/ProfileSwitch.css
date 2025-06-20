@@ -1,0 +1,175 @@
+.profile-switch-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #232323;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    overflow: hidden; /* 스크롤바 숨김 */
+}
+
+.profile-switch-modal {
+    background: #232323;
+    border-radius: 24px;
+    padding: 64.8px 76.8px 62.4px 76.8px;
+    min-width: 552px;
+    min-height: 696px;
+    box-shadow: 0 6px 48px rgba(0,0,0,0.24);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-switch-close {
+    position: absolute;
+    top: 26.4px;
+    right: 33.6px;
+    background: none;
+    border: none;
+    font-size: 3.36rem;
+    color: #fff;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    z-index: 2;
+}
+
+.profile-switch-title {
+    font-size: 2.52rem;
+    font-weight: bold;
+    margin-bottom: 33.6px;
+    margin-top: 4px;
+    color: #fff;
+    letter-spacing: 1.44px;
+    text-align: center;
+}
+
+.profile-switch-image-rect {
+    width: 600px;
+    height: 400px;
+    background: #444;
+    color: #888;
+    border-radius: 16.8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.84rem;
+    margin-bottom: 43.2px;
+    margin-top: 0;
+    user-select: none;
+}
+
+.profile-switch-desc {
+    font-size: 1.68rem;
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 45.6px;
+    text-align: center;
+}
+
+.profile-switch-list {
+    display: flex;
+    gap: 36px;
+    margin-top: 9.6px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.profile-switch-profile-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    outline: none;
+    box-shadow: none;
+    transition: background 0.18s, border 0.18s;
+}
+
+.profile-switch-profile-btn:focus .profile-switch-avatar-circle,
+.profile-switch-profile-btn:hover .profile-switch-avatar-circle {
+    border-color: #ff1e80;
+    background: #ffeff7;
+}
+
+.profile-switch-profile-btn:focus .profile-switch-name,
+.profile-switch-profile-btn:hover .profile-switch-name {
+    color: #ff1e80;
+}
+
+.profile-switch-profile-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-switch-avatar-circle {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: #444;
+    border: 2.2px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.6rem;
+    color: #222;
+    margin-bottom: 10px;
+    transition: border 0.18s, background 0.18s;
+}
+
+.profile-switch-name {
+    font-size: 1.38rem;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .profile-switch-modal {
+        min-width: 108vw;
+        padding: 33.6px 7.2vw 33.6px 7.2vw;
+    }
+    .profile-switch-image-rect {
+        width: 108vw;
+        height: 38.4vw;
+        min-width: 192px;
+        min-height: 96px;
+        font-size: 4.32rem;
+    }
+    .profile-switch-title {
+        font-size: 1.92rem;
+    }
+    .profile-switch-desc {
+        font-size: 1.32rem;
+    }
+    .profile-switch-avatar-circle {
+        width: 56px;
+        height: 56px;
+        font-size: 1.8rem;
+    }
+    .profile-switch-name {
+        font-size: 1.1rem;
+        max-width: 60px;
+    }
+    .profile-switch-list {
+        gap: 20px;
+    }
+}
+
+/* 크롬 등에서 스크롤바 완전히 숨기기 */
+::-webkit-scrollbar {
+    display: none !important;
+}

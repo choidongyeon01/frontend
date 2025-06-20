@@ -37,14 +37,12 @@ const AddProfilePage = ({ nickname, age, gender, onProfileComplete, onGoToLogin,
       alert('닉네임, 나이, 성별을 모두 입력하세요.');
       return;
     }
-    // 장르만 전달 (상위에서 나머지 정보와 합쳐서 SelectContentPage로 이동)
     onProfileComplete({ genres: selectedGenres });
   };
 
   return (
-    <div className="add-profile-bg">
+    <div className="add-profile-bg-centered">
       <div className="add-profile-container">
-        <h2 className="add-profile-title">+ 새 프로필 만들기</h2>
         <form className="add-profile-form" onSubmit={handleSubmit}>
           <div className="add-profile-genres">
             <div className="genres-title">선호 서브장르 선택</div>

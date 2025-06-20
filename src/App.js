@@ -199,6 +199,9 @@ function App() {
               navigate('/profile/select', { replace: true });
             }}
             currentProfile={selectedProfile}
+            currentUser={currentUser}
+            setSelectedProfile={setSelectedProfile}
+            setCurrentProfileId={setCurrentProfileId}
           />
         )}
         <div className="main-content-area">
@@ -334,17 +337,23 @@ function App() {
                 : <SelectContentPage
                     profileData={location.state?.profileData}
                     onComplete={(selected) => {
-                      const profileId = location.state?.profileData?.id;
-                      if (!currentUser) return;
-                      const updatedProfiles = (currentUser.profiles || []).map(profile =>
-                        profile.id === profileId
-                          ? { ...profile, selectedContent: selected }
-                          : profile
-                      );
-                      const updatedUser = { ...currentUser, profiles: updatedProfiles };
-                      setCurrentUser(updatedUser);
-                      setUsers(users.map(u => u.id === updatedUser.id ? updatedUser : u));
-                      navigate('/profile/select', { replace: true });
+                      // 프로필 저장 로직 + 선택 즉시 반영 (핵심)
+                      const prevData = location.state?.profileData;
+                      const newId = (currentUser?.profiles?.length || 0) > 0
+                        ? Math.max(...currentUser.profiles.map(p => p.id)) + 1
+                        : 1;
+                      const newProfile = {
+                        ...prevData,
+                        id: newId,
+                        selectedContent: selected
+                      };
+                      handleAddProfile(newProfile);
+                      setSelectedProfile(newProfile);
+                      setCurrentProfileId(newProfile.id);
+                      // 상태가 확실히 반영된 뒤에 이동하도록 setTimeout 사용
+                      setTimeout(() => {
+                        navigate('/profile/select', { replace: true });
+                      }, 0);
                     }}
                     onPrev={() => navigate('/profile/add/genres')}
                   />

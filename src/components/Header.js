@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import ProfileSwitch from './ProfileSwitch/ProfileSwitch';
 import '../styles/components/Header.css';
 
 const LIVE_CATEGORIES = [
@@ -28,7 +29,14 @@ const GENRE_CATEGORIES = [
   { id: 'drama', name: 'Drama' }
 ];
 
-const Header = ({ onLogout, onSwitchProfile, currentProfile }) => {
+const Header = ({
+  onLogout,
+  onSwitchProfile,
+  currentProfile,
+  currentUser, // 추가: 현재 유저 정보(프로필 배열 포함)
+  setSelectedProfile, // 추가: 프로필 전환 함수
+  setCurrentProfileId // 추가: 프로필 전환 함수
+}) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
@@ -37,6 +45,7 @@ const Header = ({ onLogout, onSwitchProfile, currentProfile }) => {
   const [vodDropdownOpen, setVodDropdownOpen] = useState(false);
   const [genreDropdownOpen, setGenreDropdownOpen] = useState(false);
   const [settingsDropdownOpen, setSettingsDropdownOpen] = useState(false);
+  const [profileSwitchOpen, setProfileSwitchOpen] = useState(false); // 프로필 전환 모달
 
   const settingsRef = useRef();
 
@@ -97,6 +106,24 @@ const Header = ({ onLogout, onSwitchProfile, currentProfile }) => {
   const handleLogoutClick = () => {
     setSettingsDropdownOpen(false);
     onLogout?.();
+  };
+
+  // 프로필 아이콘 클릭 시 모달 열기
+  const handleProfileIconClick = () => {
+    setProfileSwitchOpen(true);
+  };
+
+  // 모달 닫기
+  const handleCloseProfileSwitch = () => {
+    setProfileSwitchOpen(false);
+  };
+
+  // 프로필 전환 핸들러
+  const handleSwitchProfile = (profile) => {
+    setSelectedProfile?.(profile);
+    setCurrentProfileId?.(profile.id);
+    setProfileSwitchOpen(false);
+    // 필요하다면 navigate('/') 등 추가
   };
 
   return (
@@ -229,7 +256,13 @@ const Header = ({ onLogout, onSwitchProfile, currentProfile }) => {
       <div className="sidebar-profile">
         {currentProfile && (
           <>
-            <div className="profile-avatar">{currentProfile.avatar}</div>
+            <div
+              className="profile-avatar"
+              onClick={handleProfileIconClick}
+              style={{ cursor: 'pointer' }}
+            >
+              {currentProfile.avatar}
+            </div>
             <div className="profile-name">{currentProfile.name}</div>
           </>
         )}
@@ -279,6 +312,14 @@ const Header = ({ onLogout, onSwitchProfile, currentProfile }) => {
           )}
         </div>
       </div>
+      {/* 프로필 수동 전환 모달 */}
+      {profileSwitchOpen && (
+        <ProfileSwitch
+          profiles={currentUser?.profiles || []}
+          onSwitchProfile={handleSwitchProfile}
+          onClose={handleCloseProfileSwitch}
+        />
+      )}
     </aside>
   );
 };
