@@ -71,8 +71,35 @@
   white-space: pre-line;
 }
 
-/* 버튼 공통 스타일 */
-.select-content-btn {
+/* 버튼 행 */
+.select-content-btn-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+/* 이전 버튼 */
+.select-content-prev-btn {
+  background: #444;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 13px 40px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+  min-width: 140px;
+  margin-top: 0;
+  box-sizing: border-box;
+  text-align: center;
+}
+.select-content-prev-btn:hover {
+  background: #888;
+}
+
+/* 다음(선택 완료) 버튼 */
+.select-content-next-btn {
   background: #ff1e80;
   color: #fff;
   border: none;
@@ -82,11 +109,11 @@
   font-weight: bold;
   cursor: pointer;
   transition: background 0.2s;
-  min-width: 140px; /* 버튼 최소 너비 고정 (원하는 값으로 조정) */
-  margin-top: 32px;
+  min-width: 140px;
+  margin-top: 0;
   box-sizing: border-box;
   text-align: center;
 }
-.select-content-btn:hover {
+.select-content-next-btn:hover {
   background: #e0146a;
 }

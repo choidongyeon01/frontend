@@ -86,16 +86,16 @@ const SelectContentPage = ({ profileData, onComplete, onPrev }) => {
             </CarouselSelect>
           </div>
         ))}
-        <div style={{ display: 'flex', gap: 16, marginTop: 32 }}>
+        <div className="select-content-btn-row">
           <button
-            className="select-content-btn"
+            className="select-content-prev-btn"
             onClick={onPrev}
             type="button"
           >
             이전
           </button>
           <button
-            className="select-content-btn"
+            className="select-content-next-btn"
             onClick={() => onComplete && onComplete(selected)}
             type="button"
           >

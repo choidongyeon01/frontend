@@ -9,6 +9,7 @@ import GenrePage from './components/GenrePage';
 import LoginPage from './components/Auth/LoginPage';
 import RegisterPage from './components/Auth/RegisterPage';
 import AddProfilePage from './components/Auth/AddProfilePage';
+import NewProfileInfoPage from './components/Auth/NewProfileInfoPage';
 import SelectContentPage from './components/Auth/SelectContentPage';
 import ProfileSelect from './components/Auth/ProfileSelect';
 import SearchResults from './pages/SearchResults';
@@ -70,6 +71,9 @@ function App() {
   const [currentProfileId, setCurrentProfileId] = useState(null);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // 새 프로필 정보 (닉네임/나이/성별/아바타) 임시 저장
+  const [newProfileInfo, setNewProfileInfo] = useState(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -170,7 +174,7 @@ function App() {
     setUsers(users.map(u => u.id === updatedUser.id ? updatedUser : u));
   };
 
-  // ----------- 수정된 부분: 안전한 로그인 상태 초기화 후 이동 -----------
+  // 로그아웃 및 로그인 페이지로 이동
   const handleLogoutAndGoToLogin = () => {
     setIsLoggedIn(false);
     setCurrentUser(null);
@@ -279,39 +283,51 @@ function App() {
                 : <ProfileSelect
                     profiles={currentUser?.profiles || []}
                     onSelect={handleProfileSelect}
-                    onAddProfile={() => navigate('/profile/add')}
+                    onAddProfile={() => {
+                      setNewProfileInfo(null);
+                      navigate('/profile/add/info');
+                    }}
                     onNameChange={handleNameChange}
                     onDeleteProfile={handleDeleteProfile}
                     onAvatarChange={handleAvatarChange}
                   />
             } />
-            <Route path="/profile/add" element={
+            {/* 단계 1: 닉네임/나이/성별/아바타 입력 */}
+            <Route path="/profile/add/info" element={
               !isLoggedIn
                 ? <Navigate to="/login" replace />
-                : <AddProfilePage
-                    onProfileComplete={(profileData) => {
-                      const newId = (currentUser.profiles?.length || 0) > 0
-                        ? Math.max(...currentUser.profiles.map(p => p.id)) + 1
-                        : 1;
-                      const usedAvatars = (currentUser.profiles || []).map(p => p.avatar);
-                      const availableAvatars = PROFILE_AVATARS.filter(emoji => !usedAvatars.includes(emoji));
-                      const newAvatar = availableAvatars.length > 0 ? availableAvatars[0] : PROFILE_AVATARS[0];
-                      const newProfile = {
-                        id: newId,
-                        name: profileData.nickname,
-                        color: PROFILE_COLORS[(newId - 1) % PROFILE_COLORS.length],
-                        avatar: newAvatar,
-                        age: profileData.age,
-                        gender: profileData.gender,
-                        genres: profileData.genres,
-                      };
-                      handleAddProfile(newProfile);
-                      navigate('/profile/content', { state: { profileData: newProfile } });
+                : <NewProfileInfoPage
+                    usedAvatars={currentUser?.profiles?.map(p => p.avatar) || []}
+                    onNext={info => {
+                      setNewProfileInfo(info);
+                      navigate('/profile/add/genres');
                     }}
                     onGoToLogin={handleLogoutAndGoToLogin}
                     onPrev={() => navigate('/profile/select')}
                   />
             } />
+            {/* 단계 2: 장르 선택 (AddProfilePage) */}
+            <Route path="/profile/add/genres" element={
+              !isLoggedIn
+                ? <Navigate to="/login" replace />
+                : <AddProfilePage
+                    nickname={newProfileInfo?.nickname}
+                    age={newProfileInfo?.age}
+                    gender={newProfileInfo?.gender}
+                    avatar={newProfileInfo?.avatar}
+                    onProfileComplete={(profileData) => {
+                      // newProfileInfo + 선택 장르를 합쳐서 SelectContentPage로 이동
+                      const profile = {
+                        ...newProfileInfo,
+                        ...profileData
+                      };
+                      navigate('/profile/content', { state: { profileData: profile } });
+                    }}
+                    onGoToLogin={handleLogoutAndGoToLogin}
+                    onPrev={() => navigate('/profile/add/info')}
+                  />
+            } />
+            {/* 단계 3: 관심 콘텐츠 선택 */}
             <Route path="/profile/content" element={
               !isLoggedIn
                 ? <Navigate to="/login" replace />
@@ -330,7 +346,7 @@ function App() {
                       setUsers(users.map(u => u.id === updatedUser.id ? updatedUser : u));
                       navigate('/profile/select', { replace: true });
                     }}
-                    onPrev={() => navigate('/profile/add')}
+                    onPrev={() => navigate('/profile/add/genres')}
                   />
             } />
             <Route path="/*" element={

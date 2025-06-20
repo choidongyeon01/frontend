@@ -20,10 +20,7 @@ const GENRE_CATEGORIES = [
 
 const MAX_SELECT = 3;
 
-const AddProfilePage = ({ onProfileComplete, onGoToLogin }) => {
-  const [nickname, setNickname] = useState('');
-  const [age, setAge] = useState('');
-  const [gender, setGender] = useState('');
+const AddProfilePage = ({ nickname, age, gender, onProfileComplete, onGoToLogin, onPrev }) => {
   const [selectedGenres, setSelectedGenres] = useState([]);
 
   const toggleGenre = (genre) => {
@@ -40,7 +37,8 @@ const AddProfilePage = ({ onProfileComplete, onGoToLogin }) => {
       alert('닉네임, 나이, 성별을 모두 입력하세요.');
       return;
     }
-    onProfileComplete({ nickname, age, gender, genres: selectedGenres });
+    // 장르만 전달 (상위에서 나머지 정보와 합쳐서 SelectContentPage로 이동)
+    onProfileComplete({ genres: selectedGenres });
   };
 
   return (
@@ -48,30 +46,6 @@ const AddProfilePage = ({ onProfileComplete, onGoToLogin }) => {
       <div className="add-profile-container">
         <h2 className="add-profile-title">+ 새 프로필 만들기</h2>
         <form className="add-profile-form" onSubmit={handleSubmit}>
-          <div className="add-profile-row">
-            <input
-              type="text"
-              placeholder="닉네임"
-              value={nickname}
-              onChange={e => setNickname(e.target.value)}
-              maxLength={12}
-              required
-            />
-            <input
-              type="number"
-              placeholder="나이"
-              value={age}
-              onChange={e => setAge(e.target.value)}
-              min={0}
-              required
-            />
-            <select value={gender} onChange={e => setGender(e.target.value)} required>
-              <option value="">성별 선택</option>
-              <option value="남">남</option>
-              <option value="여">여</option>
-              <option value="기타">기타</option>
-            </select>
-          </div>
           <div className="add-profile-genres">
             <div className="genres-title">선호 서브장르 선택</div>
             {GENRE_CATEGORIES.map(cat => (
@@ -95,9 +69,22 @@ const AddProfilePage = ({ onProfileComplete, onGoToLogin }) => {
               </div>
             ))}
           </div>
-          <button className="add-profile-next-btn" type="submit" disabled={selectedGenres.length === 0}>
-            다음
-          </button>
+          <div className="add-profile-btn-row">
+            <button
+              className="add-profile-prev-btn"
+              type="button"
+              onClick={onPrev}
+            >
+              이전
+            </button>
+            <button
+              className="add-profile-next-btn"
+              type="submit"
+              disabled={selectedGenres.length === 0}
+            >
+              다음
+            </button>
+          </div>
         </form>
         <div className="register-bottom">
           <span>이미 계정이 있으신가요?</span>
