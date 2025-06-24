@@ -20,7 +20,7 @@ const GENRE_CATEGORIES = [
 
 const MAX_SELECT = 3;
 
-const AddProfilePage = ({ nickname, age, gender, onProfileComplete, onGoToLogin, onPrev }) => {
+const AddProfilePage = ({ name, age, gender, onProfileComplete, onGoToLogin, onPrev }) => {
   const [selectedGenres, setSelectedGenres] = useState([]);
 
   const toggleGenre = (genre) => {
@@ -33,7 +33,7 @@ const AddProfilePage = ({ nickname, age, gender, onProfileComplete, onGoToLogin,
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!nickname || !age || !gender) {
+    if (!name || !age || !gender) {
       alert('닉네임, 나이, 성별을 모두 입력하세요.');
       return;
     }

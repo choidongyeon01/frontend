@@ -64,7 +64,7 @@ const SelectContentPage = ({ profileData, onComplete, onPrev }) => {
     <div className="select-content-bg">
       <div className="select-content-container">
         <h2 className="select-content-title">
-          {profileData?.nickname || 'ss'}님의 취향 콘텐츠를 골라주세요!
+          {profileData?.name || '사용자'}님의 취향 콘텐츠를 골라주세요!
         </h2>
         {CONTENT_DATA.map(cat => (
           <div key={cat.category} className="content-category-block">

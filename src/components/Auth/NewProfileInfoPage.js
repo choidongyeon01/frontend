@@ -22,7 +22,8 @@ const NewProfileInfoPage = ({
       alert('닉네임, 나이, 성별, 프로필 아이콘을 모두 선택하세요.');
       return;
     }
-    onNext({ nickname, age, gender, avatar: selectedAvatar });
+    // nickname 대신 name 필드로 통일
+    onNext({ name: nickname, age, gender, avatar: selectedAvatar });
   };
 
   return (

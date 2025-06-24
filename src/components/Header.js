@@ -33,9 +33,9 @@ const Header = ({
   onLogout,
   onSwitchProfile,
   currentProfile,
-  currentUser, // 추가: 현재 유저 정보(프로필 배열 포함)
-  setSelectedProfile, // 추가: 프로필 전환 함수
-  setCurrentProfileId // 추가: 프로필 전환 함수
+  currentUser,
+  setSelectedProfile,
+  setCurrentProfileId
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ const Header = ({
   const [vodDropdownOpen, setVodDropdownOpen] = useState(false);
   const [genreDropdownOpen, setGenreDropdownOpen] = useState(false);
   const [settingsDropdownOpen, setSettingsDropdownOpen] = useState(false);
-  const [profileSwitchOpen, setProfileSwitchOpen] = useState(false); // 프로필 전환 모달
+  const [profileSwitchOpen, setProfileSwitchOpen] = useState(false);
 
   const settingsRef = useRef();
 
@@ -271,12 +271,14 @@ const Header = ({
           className="sidebar-dropdown"
           ref={settingsRef}
           style={{ width: '100%', textAlign: 'center', marginTop: 2 }}
+          onMouseEnter={() => setSettingsDropdownOpen(true)}
+          onMouseLeave={() => setSettingsDropdownOpen(false)}
         >
           <button
             className="sidebar-dropdown-item settings-gear-btn"
             aria-label="설정"
-            onClick={() => setSettingsDropdownOpen(v => !v)}
             tabIndex={0}
+            // onClick={...}  // ← 이 줄은 제거!
           >
             {/* Google Settings SVG 아이콘 */}
             <svg className="settings-gear-icon" viewBox="0 0 24 24">
