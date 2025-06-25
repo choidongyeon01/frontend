@@ -125,6 +125,7 @@ const MovieDetailModal = ({ movie, onClose, onRelatedSelect }) => {
                   key={rm.id}
                   className="carousel2-card"
                   onClick={() => onRelatedSelect && onRelatedSelect({ ...rm, type: 'movie' })}
+                  tabIndex={0}
                 >
                   {rm.poster_path ? (
                     <img
@@ -135,6 +136,11 @@ const MovieDetailModal = ({ movie, onClose, onRelatedSelect }) => {
                   ) : (
                     <div className="carousel2-no-image">No Image</div>
                   )}
+                  {/* 오버레이: 마우스 오버 시 노출 */}
+                  <div className="carousel2-hover-info">
+                    <div className="carousel2-hover-title">{rm.title}</div>
+                    <div className="carousel2-hover-desc">{rm.overview ? rm.overview : '줄거리 정보 없음'}</div>
+                  </div>
                   <div className="carousel2-title">{rm.title}</div>
                   <div className="carousel2-category">
                     {rm.release_date?.slice(0, 4) || 'No Year'}

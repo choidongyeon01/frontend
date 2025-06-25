@@ -125,6 +125,7 @@ const TVDetailModal = ({ tv, onClose, onRelatedSelect }) => {
                   key={rt.id}
                   className="carousel2-card"
                   onClick={() => onRelatedSelect && onRelatedSelect({ ...rt, type: 'tv' })}
+                  tabIndex={0}
                 >
                   {rt.poster_path ? (
                     <img
@@ -135,6 +136,11 @@ const TVDetailModal = ({ tv, onClose, onRelatedSelect }) => {
                   ) : (
                     <div className="carousel2-no-image">No Image</div>
                   )}
+                  {/* 오버레이: 마우스 오버 시 노출 */}
+                  <div className="carousel2-hover-info">
+                    <div className="carousel2-hover-title">{rt.name}</div>
+                    <div className="carousel2-hover-desc">{rt.overview ? rt.overview : '줄거리 정보 없음'}</div>
+                  </div>
                   <div className="carousel2-title">{rt.name}</div>
                   <div className="carousel2-category">
                     {rt.first_air_date?.slice(0, 4) || 'No Year'}
