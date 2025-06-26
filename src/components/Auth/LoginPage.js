@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import './LoginPage.css';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+
+// Google Cloud Console에서 발급받은 클라이언트 ID로 교체하세요
+const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID';
 
 const LoginPage = ({ onLogin, onGoToRegister }) => {
   const [id, setId] = useState('');
@@ -17,6 +21,16 @@ const LoginPage = ({ onLogin, onGoToRegister }) => {
     }
     setError('');
     onLogin(user.id, user.password);
+  };
+
+  const handleGoogleSuccess = (credentialResponse) => {
+    // 구글 로그인 성공 시 JWT 토큰(credentialResponse.credential) 처리
+    console.log('Google 로그인 성공:', credentialResponse);
+    // 필요시 onLogin 호출하거나 별도 소셜 로그인 처리 로직 추가
+  };
+
+  const handleGoogleFailure = () => {
+    setError('Google 로그인에 실패했습니다.');
   };
 
   return (
@@ -42,6 +56,23 @@ const LoginPage = ({ onLogin, onGoToRegister }) => {
           {error && <div className="login-error">{error}</div>}
           <button className="login-btn" type="submit">로그인</button>
         </form>
+        <div className="login-divider">
+          <span>or</span>
+        </div>
+        <div className="login-google-wrap">
+          <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleFailure}
+              useOneTap={false}
+              text="signin_with"
+              shape="rectangular"
+              theme="outline"
+              logo_alignment="left"
+              width="100%"
+            />
+          </GoogleOAuthProvider>
+        </div>
         <div className="login-bottom">
           <span>아직 회원이 아니신가요?</span>
           <button className="register-link" onClick={onGoToRegister}>회원가입</button>
